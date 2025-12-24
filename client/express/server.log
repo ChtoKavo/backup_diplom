@@ -1,0 +1,23 @@
+[dotenv@17.2.2] injecting env (1) from .env -- tip: ⚙️  override existing env vars with { override: true }
+Write access OK: /root/client/express/uploads
+Write access OK: /root/client/express/uploads/avatars
+Write access OK: /root/client/express/uploads/banners
+Write access OK: /root/client/express/uploads/audio
+Write access OK: /root/client/express/uploads/images
+Write access OK: /root/client/express/uploads/videos
+Write access OK: /root/client/express/uploads/files
+Write access OK: /root/client/express/uploads/gallery
+/root/client/express/index.js:188
+        const transporter = nodemailer.createTransporter({
+                                       ^
+
+TypeError: nodemailer.createTransporter is not a function
+    at Object.<anonymous> (/root/client/express/index.js:188:40)
+    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10)
+    at Module.load (node:internal/modules/cjs/loader:1266:32)
+    at Module._load (node:internal/modules/cjs/loader:1091:12)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12)
+    at node:internal/main/run_main_module:28:49
+
+Node.js v20.19.5
