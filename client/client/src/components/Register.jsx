@@ -17,7 +17,7 @@ const Register = ({ onRegister, onSwitchToLogin, onSuccess }) => {
   const [step, setStep] = useState('personal'); // personal -> credentials -> categories -> confirm
   const [acceptedTerms, setAcceptedTerms] = useState(false);
 
-  const API_BASE_URL = 'http://151.241.228.247:5001';
+  const API_BASE_URL = 'http://151.247.197.250:5001';
 
   // Категории для выбора
   const availableCategories = [

@@ -1,0 +1,866 @@
+/* ====== FEED СТРАНИЦА - ЧИСТЫЙ ДИЗАЙН ====== */
+
+/* Основной контейнер */
+.feed {
+    padding: 0;
+    background: #1a1a1a;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* Шапка Feed */
+.feed-header {
+    display: flex;
+    justify-content: center;
+    padding: 32px 24px 40px;
+    position: relative;
+    z-index: 10;
+    background: linear-gradient(180deg, rgba(30, 30, 30, 0.95) 0%, rgba(26, 26, 26, 0.9) 100%);
+    border-bottom: 1px solid rgba(255, 167, 5, 0.15);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 700px;
+    gap: 16px;
+}
+
+/* Кнопка создания поста */
+.create-post-btn {
+    background: linear-gradient(135deg, #FFA705 0%, #ff8c00 100%);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 15px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(255, 167, 5, 0.3);
+}
+
+.create-post-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.create-post-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(255, 167, 5, 0.4);
+}
+
+.create-post-btn:hover::before {
+    left: 100%;
+}
+
+.btn-icon {
+    font-size: 18px;
+}
+
+/* Модальное окно создания поста */
+.create-post-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+    animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    background: #2a2a2a;
+    border-radius: 20px;
+    padding: 0;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 167, 5, 0.2);
+    animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(255, 167, 5, 0.15);
+    background: linear-gradient(135deg, rgba(255, 167, 5, 0.1) 0%, transparent 100%);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-radius: 20px 20px 0 0;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+}
+
+.close-modal {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: #a0aec0;
+    padding: 6px;
+    border-radius: 10px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+}
+
+.close-modal:hover {
+    background: rgba(255, 167, 5, 0.2);
+    color: #FFA705;
+    transform: rotate(90deg) scale(1.1);
+}
+
+/* Форма поста */
+.post-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-content {
+    padding: 20px 24px;
+}
+
+.post-textarea {
+    width: 100%;
+    border: 1px solid rgba(255, 167, 5, 0.2);
+    border-radius: 12px;
+    outline: none;
+    padding: 16px;
+    font-size: 15px;
+    resize: none;
+    font-family: inherit;
+    margin-bottom: 16px;
+    min-height: 140px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+.post-textarea:focus {
+    border-color: #FFA705;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(255, 167, 5, 0.1);
+}
+
+.post-textarea::placeholder {
+    color: #718096;
+}
+
+.char-count {
+    text-align: right;
+    color: #a0aec0;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+/* Предпросмотр медиа */
+.image-preview-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.preview-image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #1a1a1a;
+    border: 1px solid rgba(255, 167, 5, 0.2);
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.preview-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.preview-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(255, 167, 5, 0.15);
+}
+
+.remove-image-btn {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.remove-image-btn:hover {
+    background: rgba(229, 62, 62, 0.8);
+}
+
+/* Нижняя панель формы */
+.post-actions {
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    border-top: 1px solid rgba(255, 167, 5, 0.15);
+    background: rgba(255, 167, 5, 0.02);
+    border-radius: 0 0 20px 20px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+}
+
+.file-upload-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 167, 5, 0.3);
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #a0aec0;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    flex: 1;
+}
+
+.file-upload-btn:hover {
+    border-color: #FFA705;
+    color: #FFA705;
+    background: rgba(255, 167, 5, 0.08);
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.cancel-btn {
+    background: rgba(255, 255, 255, 0.05);
+    color: #a0aec0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.25s ease;
+}
+
+.cancel-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.submit-btn {
+    background: linear-gradient(135deg, #FFA705 0%, #ff8c00 100%);
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(255, 167, 5, 0.3);
+    white-space: nowrap;
+}
+
+.submit-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 167, 5, 0.4);
+}
+
+.submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Список постов */
+.posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 5;
+    padding: 0 16px 40px;
+}
+
+/* Карточка поста */
+.post-item {
+    background: #2a2a2a;
+    border-radius: 12px;
+    padding: 0;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 167, 5, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    animation: postAppear 0.4s ease;
+}
+
+@keyframes postAppear {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.post-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 167, 5, 0.2);
+}
+
+/* Шапка поста */
+.post-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    position: relative;
+    border-bottom: 1px solid rgba(255, 167, 5, 0.1);
+}
+
+.post-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+
+.author-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #FFA705 0%, #ff8c00 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+    box-shadow: 0 4px 12px rgba(255, 167, 5, 0.25);
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.author-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.author-avatar-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: white;
+}
+
+.author-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.author-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.author-name:hover {
+    color: #FFA705;
+}
+
+.post-time {
+    font-size: 12px;
+    color: #a0aec0;
+}
+
+.post-menu-btn {
+    background: transparent;
+    border: none;
+    color: #718096;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 4px 8px;
+    transition: all 0.2s ease;
+    border-radius: 6px;
+}
+
+.post-menu-btn:hover {
+    color: #FFA705;
+    background: rgba(255, 167, 5, 0.1);
+}
+
+/* Контент поста */
+.post-content {
+    padding: 16px 20px;
+}
+
+.post-content p {
+    margin: 0;
+    color: #e2e8f0;
+    line-height: 1.7;
+    font-size: 15px;
+    font-weight: 500;
+    text-align: left;
+    white-space: pre-line;
+    word-wrap: break-word;
+}
+
+/* Галерея изображений поста */
+.post-images-gallery {
+    display: grid;
+    gap: 8px;
+    margin-top: 16px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #1a1a1a;
+}
+
+.grid-1 {
+    grid-template-columns: 1fr;
+}
+
+.grid-2 {
+    grid-template-columns: 1fr 1fr;
+}
+
+.grid-3 {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+.grid-3 .gallery-image-item:first-child {
+    grid-column: 1 / -1;
+}
+
+.grid-4 {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+.gallery-image-item {
+    position: relative;
+    overflow: hidden;
+    background: #1a1a1a;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    aspect-ratio: 1;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.gallery-image-item:hover {
+    transform: scale(1.02);
+}
+
+.gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gallery-image-item:hover .gallery-image {
+    transform: scale(1.08);
+}
+
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 167, 5, 0.85), rgba(255, 183, 51, 0.85));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 700;
+    backdrop-filter: blur(3px);
+    border-radius: 8px;
+}
+
+/* Действия поста - ГЛАВНОЕ! */
+.post-actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    padding: 0;
+    border-top: 1px solid rgba(255, 167, 5, 0.1);
+    background: transparent;
+    border-radius: 0 0 12px 12px;
+}
+
+.post-actions button {
+    background: transparent;
+    border: none;
+    border-right: 1px solid rgba(255, 167, 5, 0.1);
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #a0aec0;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-weight: 600;
+    position: relative;
+    flex-direction: column;
+}
+
+.post-actions button:last-child {
+    border-right: none;
+}
+
+.post-actions button:hover {
+    background: rgba(255, 167, 5, 0.08);
+    color: #FFA705;
+    transform: translateY(-1px);
+}
+
+.post-actions button span:first-child {
+    font-size: 16px;
+    transition: transform 0.2s ease;
+}
+
+.post-actions button:hover span:first-child {
+    transform: scale(1.2);
+}
+
+/* Лайк */
+.like-btn.liked {
+    color: #FFA705;
+}
+
+.like-btn.liked:hover {
+    background: rgba(255, 167, 5, 0.15);
+}
+
+/* Комментарии */
+.post-comments {
+    padding: 16px 20px;
+    border-top: 1px solid rgba(255, 167, 5, 0.1);
+    background: rgba(255, 167, 5, 0.02);
+    animation: commentsSlideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 0 0 12px 12px;
+}
+
+@keyframes commentsSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.add-comment {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.comment-input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 167, 5, 0.2);
+    border-radius: 10px;
+    padding: 10px 14px;
+    color: white;
+    font-size: 13px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.comment-input:focus {
+    border-color: #FFA705;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.comment-input::placeholder {
+    color: #718096;
+}
+
+.add-comment-btn {
+    background: linear-gradient(135deg, #FFA705 0%, #ff8c00 100%);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.add-comment-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 167, 5, 0.3);
+}
+
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.comment {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 167, 5, 0.05);
+}
+
+.comment-author {
+    font-weight: 600;
+    color: white;
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.comment-text {
+    color: #cbd5e0;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* Пустое состояние */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #a0aec0;
+}
+
+.empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.empty-state h3 {
+    color: white;
+    margin: 0 0 8px;
+    font-size: 18px;
+}
+
+.empty-state p {
+    margin: 0 0 20px;
+    font-size: 14px;
+}
+
+.create-first-post-btn {
+    background: linear-gradient(135deg, #FFA705 0%, #ff8c00 100%);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.create-first-post-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 167, 5, 0.3);
+}
+
+/* Загрузка */
+.loading {
+    text-align: center;
+    padding: 40px 20px;
+    color: #a0aec0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 167, 5, 0.2);
+    border-top-color: #FFA705;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Ошибки */
+.error-message {
+    background: rgba(231, 76, 60, 0.15);
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    color: #fc8181;
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    font-size: 13px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .feed {
+        padding: 0;
+    }
+
+    .feed-header {
+        padding: 16px 16px 24px;
+    }
+
+    .posts-list {
+        gap: 12px;
+        padding: 0 12px 32px;
+    }
+
+    .post-item {
+        border-radius: 10px;
+    }
+
+    .post-header {
+        padding: 12px 16px;
+    }
+
+    .author-avatar {
+        width: 40px;
+        height: 40px;
+        font-size: 14px;
+    }
+
+    .author-name {
+        font-size: 13px;
+    }
+
+    .post-content {
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+
+    .post-actions {
+        grid-template-columns: repeat(3, 1fr);
+        padding: 0;
+    }
+
+    .post-actions button {
+        padding: 10px 12px;
+        font-size: 12px;
+        gap: 4px;
+    }
+
+    .post-actions button span:first-child {
+        font-size: 14px;
+    }
+
+    .modal-content {
+        max-width: 90vw;
+    }
+
+    .post-textarea {
+        min-height: 120px;
+    }
+}

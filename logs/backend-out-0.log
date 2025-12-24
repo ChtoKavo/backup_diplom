@@ -1,0 +1,24 @@
+2025-12-24 18:18:25: [dotenv@17.2.2] injecting env (0) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+2025-12-24 18:18:25: Write access OK: /root/projects/backup_diplom/client/express/uploads
+2025-12-24 18:18:25: Write access OK: /root/projects/backup_diplom/client/express/uploads/avatars
+2025-12-24 18:18:25: Write access OK: /root/projects/backup_diplom/client/express/uploads/banners
+2025-12-24 18:18:25: Write access OK: /root/projects/backup_diplom/client/express/uploads/audio
+2025-12-24 18:18:25: Write access OK: /root/projects/backup_diplom/client/express/uploads/images
+2025-12-24 18:18:25: Write access OK: /root/projects/backup_diplom/client/express/uploads/videos
+2025-12-24 18:18:25: Write access OK: /root/projects/backup_diplom/client/express/uploads/files
+2025-12-24 18:18:25: Write access OK: /root/projects/backup_diplom/client/express/uploads/gallery
+2025-12-24 18:18:25: 🚀 Сервер запущен на http://151.247.197.250:5001
+2025-12-24 18:18:25: 📱 WebSocket сервер активен на порту 5001
+2025-12-24 18:18:25: 🕒 Время запуска: 12/24/2025, 6:18:25 PM
+2025-12-24 18:20:33: [dotenv@17.2.2] injecting env (0) from .env -- tip: ⚙️  specify custom .env file path with { path: '/custom/path/.env' }
+2025-12-24 18:20:33: Write access OK: /root/projects/backup_diplom/client/express/uploads
+2025-12-24 18:20:33: Write access OK: /root/projects/backup_diplom/client/express/uploads/avatars
+2025-12-24 18:20:33: Write access OK: /root/projects/backup_diplom/client/express/uploads/banners
+2025-12-24 18:20:33: Write access OK: /root/projects/backup_diplom/client/express/uploads/audio
+2025-12-24 18:20:33: Write access OK: /root/projects/backup_diplom/client/express/uploads/images
+2025-12-24 18:20:33: Write access OK: /root/projects/backup_diplom/client/express/uploads/videos
+2025-12-24 18:20:33: Write access OK: /root/projects/backup_diplom/client/express/uploads/files
+2025-12-24 18:20:33: Write access OK: /root/projects/backup_diplom/client/express/uploads/gallery
+2025-12-24 18:20:33: 🚀 Сервер запущен на http://151.247.197.250:5001
+2025-12-24 18:20:33: 📱 WebSocket сервер активен на порту 5001
+2025-12-24 18:20:33: 🕒 Время запуска: 12/24/2025, 6:20:33 PM

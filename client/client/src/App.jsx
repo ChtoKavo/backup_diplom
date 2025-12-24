@@ -85,9 +85,9 @@ function MainApp({ currentUser, activeTab, setActiveTab, sidebarOpen, setSidebar
 
   const loadUserAvatar = async () => {
     try {
-      const response = await fetch(`http://localhost:5001/api/users/${currentUser.user_id}/avatar`);
+      const response = await fetch(`http://151.247.197.250:5001/api/users/${currentUser.user_id}/avatar`);
       if (response.ok) {
-        setUserAvatar(`http://localhost:5001/api/users/${currentUser.user_id}/avatar?t=${Date.now()}`);
+        setUserAvatar(`http://151.247.197.250:5001/api/users/${currentUser.user_id}/avatar?t=${Date.now()}`);
       } else {
         setUserAvatar(null);
       }
@@ -150,12 +150,58 @@ function MainApp({ currentUser, activeTab, setActiveTab, sidebarOpen, setSidebar
 
   return (
     <div className="app-container">
-      {/* Черное меню с пользователем и выходом */}
-      <div className="header-actions">
-        <div className="user-menu">
-          {!isMobile ? (
-            <>
-              <div className="user-item">
+      {/* Профессиональная шапка */}
+      <header className="top-header">
+        <div className="header-wrapper">
+          {/* Левая часть - логотип и навигация */}
+          <div className="header-left">
+            <div className="header-logo">
+              <img src={Logo} alt="Logo" className="logo-image" />
+            </div>
+            
+            {/* Десктопная горизонтальная навигация */}
+            {!isMobile && (
+              <nav className="header-nav">
+                <button 
+                  className={`nav-btn ${activeTab === 'feed' ? 'active' : ''}`}
+                  onClick={() => handleTabChange('feed')}
+                  title="Лента"
+                >
+                  <img src={Lenta} alt="Лента" />
+                  <span>Лента</span>
+                </button>
+                <button 
+                  className={`nav-btn ${activeTab === 'messenger' ? 'active' : ''}`}
+                  onClick={() => handleTabChange('messenger')}
+                  title="Чаты"
+                >
+                  <img src={Chat} alt="Чаты" />
+                  <span>Чаты</span>
+                </button>
+                <button 
+                  className={`nav-btn ${activeTab === 'friends' ? 'active' : ''}`}
+                  onClick={() => handleTabChange('friends')}
+                  title="Друзья"
+                >
+                  <img src={Friend} alt="Друзья" />
+                  <span>Друзья</span>
+                </button>
+                <button 
+                  className={`nav-btn ${activeTab === 'notifications' ? 'active' : ''}`}
+                  onClick={() => handleTabChange('notifications')}
+                  title="Уведомления"
+                >
+                  <img src={Notification} alt="Уведомления" />
+                  <span>Уведомления</span>
+                </button>
+              </nav>
+            )}
+          </div>
+
+          {/* Правая часть - профиль и действия */}
+          <div className="header-right">
+            {!isMobile && (
+              <div className="user-profile-section">
                 <div className="user-avatar" onClick={handleViewMyProfile} style={{ cursor: 'pointer' }}>
                   {renderAvatar()}
                 </div>
@@ -164,36 +210,30 @@ function MainApp({ currentUser, activeTab, setActiveTab, sidebarOpen, setSidebar
                   <div className="user-role">{currentUser.role}</div>
                 </div>
               </div>
-              
-              {currentUser.role === 'admin' && (
-                <button 
-                  className={`admin-btn ${activeTab === 'admin' ? 'active' : ''}`}
-                  onClick={() => handleTabChange('admin')}
-                >
-                  <span className="admin-icon"><img src={Setting} alt="" /></span>
-                  <span>Админ</span>
-                </button>
-              )}
-            </>
-          ) : (
-            // Мобильная версия - только аватар
-            <div className="user-avatar mobile-avatar" onClick={handleViewMyProfile} style={{ cursor: 'pointer' }}>
-              {renderAvatar()}
-            </div>
-          )}
-
-          <button onClick={handleLogout} className="logout-btn">
-            {!isMobile ? (
-              <>
-                <span className="logout-icon">🚪</span>
-                <span>Выйти</span>
-              </>
-            ) : (
-              <span className="logout-icon">🚪</span>
             )}
-          </button>
+            
+            {currentUser.role === 'admin' && !isMobile && (
+              <button 
+                className={`admin-btn ${activeTab === 'admin' ? 'active' : ''}`}
+                onClick={() => handleTabChange('admin')}
+                title="Админ панель"
+              >
+                <img src={Setting} alt="Админ" />
+              </button>
+            )}
+
+            {isMobile && (
+              <div className="user-avatar" onClick={handleViewMyProfile} style={{ cursor: 'pointer' }}>
+                {renderAvatar()}
+              </div>
+            )}
+
+            <button onClick={handleLogout} className="logout-btn" title="Выход">
+              🚪
+            </button>
+          </div>
         </div>
-      </div>
+      </header>
 
       {/* Мобильная навигация */}
       {isMobile && (

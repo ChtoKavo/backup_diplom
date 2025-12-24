@@ -1,0 +1,2031 @@
+2025-12-24 18:22:19: [dotenv@17.2.2] injecting env (0) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+2025-12-24 18:22:19: Write access OK: /root/projects/backup_diplom/client/express/uploads
+2025-12-24 18:22:19: Write access OK: /root/projects/backup_diplom/client/express/uploads/avatars
+2025-12-24 18:22:19: Write access OK: /root/projects/backup_diplom/client/express/uploads/banners
+2025-12-24 18:22:19: Write access OK: /root/projects/backup_diplom/client/express/uploads/audio
+2025-12-24 18:22:19: Write access OK: /root/projects/backup_diplom/client/express/uploads/images
+2025-12-24 18:22:19: Write access OK: /root/projects/backup_diplom/client/express/uploads/videos
+2025-12-24 18:22:19: Write access OK: /root/projects/backup_diplom/client/express/uploads/files
+2025-12-24 18:22:19: Write access OK: /root/projects/backup_diplom/client/express/uploads/gallery
+2025-12-24 18:22:19: 🚀 Сервер запущен на http://151.247.197.250:5001
+2025-12-24 18:22:19: 📱 WebSocket сервер активен на порту 5001
+2025-12-24 18:22:19: 🕒 Время запуска: 12/24/2025, 6:22:19 PM
+2025-12-24 18:24:02: [dotenv@17.2.2] injecting env (0) from .env -- tip: ⚙️  enable debug logging with { debug: true }
+2025-12-24 18:24:02: Write access OK: /root/projects/backup_diplom/client/express/uploads
+2025-12-24 18:24:02: Write access OK: /root/projects/backup_diplom/client/express/uploads/avatars
+2025-12-24 18:24:02: Write access OK: /root/projects/backup_diplom/client/express/uploads/banners
+2025-12-24 18:24:02: Write access OK: /root/projects/backup_diplom/client/express/uploads/audio
+2025-12-24 18:24:02: Write access OK: /root/projects/backup_diplom/client/express/uploads/images
+2025-12-24 18:24:02: Write access OK: /root/projects/backup_diplom/client/express/uploads/videos
+2025-12-24 18:24:02: Write access OK: /root/projects/backup_diplom/client/express/uploads/files
+2025-12-24 18:24:02: Write access OK: /root/projects/backup_diplom/client/express/uploads/gallery
+2025-12-24 18:24:02: 🚀 Сервер запущен на http://151.247.197.250:5001
+2025-12-24 18:24:02: 📱 WebSocket сервер активен на порту 5001
+2025-12-24 18:24:02: 🕒 Время запуска: 12/24/2025, 6:24:02 PM
+2025-12-24 18:24:28: [dotenv@17.2.2] injecting env (0) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+2025-12-24 18:24:28: Write access OK: /root/projects/backup_diplom/client/express/uploads
+2025-12-24 18:24:28: Write access OK: /root/projects/backup_diplom/client/express/uploads/avatars
+2025-12-24 18:24:28: Write access OK: /root/projects/backup_diplom/client/express/uploads/banners
+2025-12-24 18:24:28: Write access OK: /root/projects/backup_diplom/client/express/uploads/audio
+2025-12-24 18:24:28: Write access OK: /root/projects/backup_diplom/client/express/uploads/images
+2025-12-24 18:24:28: Write access OK: /root/projects/backup_diplom/client/express/uploads/videos
+2025-12-24 18:24:28: Write access OK: /root/projects/backup_diplom/client/express/uploads/files
+2025-12-24 18:24:28: Write access OK: /root/projects/backup_diplom/client/express/uploads/gallery
+2025-12-24 18:24:28: 🚀 Сервер запущен на http://151.247.197.250:5001
+2025-12-24 18:24:28: 📱 WebSocket сервер активен на порту 5001
+2025-12-24 18:24:28: 🕒 Время запуска: 12/24/2025, 6:24:28 PM
+2025-12-24 18:24:45: ⚠️ ВНИМАНИЕ: Email подтверждение временно отключено из-за проблем с SMTP
+2025-12-24 18:24:45: Пользователь зарегистрирован с автоматическим подтверждением: Yra222225522@gmail.com
+2025-12-24 18:24:45: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:24:45: With params: [ 1 ]
+2025-12-24 18:24:45: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:24:45: With params: [ 1 ]
+2025-12-24 18:24:45: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:24:45: With params: [ 1 ]
+2025-12-24 18:24:45: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:24:45: With params: [ 1 ]
+2025-12-24 18:25:39: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:25:39: With params: [ 1 ]
+2025-12-24 18:25:39: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:25:39: With params: [ 1 ]
+2025-12-24 18:25:39: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:25:39: With params: [ 1 ]
+2025-12-24 18:25:40: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:25:40: With params: [ 1 ]
+2025-12-24 18:25:48: === LOADING PROFILE API ===
+2025-12-24 18:25:48: Requested user ID: 1
+2025-12-24 18:25:48: Users found: 1
+2025-12-24 18:25:48: User data from DB: { user_id: 1, name: 'Юрий', avatar_url: null, banner_url: null }
+2025-12-24 18:25:48: User data with relative URLs: { avatar_url: null, banner_url: null }
+2025-12-24 18:25:48: === LOADING PROFILE API ===
+2025-12-24 18:25:48: Requested user ID: 1
+2025-12-24 18:25:48: Users found: 1
+2025-12-24 18:25:48: User data from DB: { user_id: 1, name: 'Юрий', avatar_url: null, banner_url: null }
+2025-12-24 18:25:48: User data with relative URLs: { avatar_url: null, banner_url: null }
+2025-12-24 18:25:48: === GALLERY API CALL ===
+2025-12-24 18:25:48: User ID: 1
+2025-12-24 18:25:48: Limit: 3
+2025-12-24 18:25:48: User found: Юрий
+2025-12-24 18:25:48: Executing query: 
+        SELECT 
+          gallery_id,
+          user_id,
+          image_url,
+          thumbnail_url,
+          description,
+          created_at
+        FROM user_gallery 
+        WHERE user_id = ?
+        ORDER BY created_at DESC
+        LIMIT 3
+      
+2025-12-24 18:25:48: With parameter: 1
+2025-12-24 18:25:48: Found 0 photos for user 1
+2025-12-24 18:25:48: Sending response: { photos: [], total_count: 0, user: { id: 1, name: 'Юрий' } }
+2025-12-24 18:25:48: === GALLERY API CALL ===
+2025-12-24 18:25:48: User ID: 1
+2025-12-24 18:25:48: Limit: 3
+2025-12-24 18:25:48: User found: Юрий
+2025-12-24 18:25:48: Executing query: 
+        SELECT 
+          gallery_id,
+          user_id,
+          image_url,
+          thumbnail_url,
+          description,
+          created_at
+        FROM user_gallery 
+        WHERE user_id = ?
+        ORDER BY created_at DESC
+        LIMIT 3
+      
+2025-12-24 18:25:48: With parameter: 1
+2025-12-24 18:25:48: Found 0 photos for user 1
+2025-12-24 18:25:48: Sending response: { photos: [], total_count: 0, user: { id: 1, name: 'Юрий' } }
+2025-12-24 18:25:59: === GALLERY API CALL ===
+2025-12-24 18:25:59: User ID: 1
+2025-12-24 18:25:59: Limit: 3
+2025-12-24 18:25:59: User found: Юрий
+2025-12-24 18:25:59: Executing query: 
+        SELECT 
+          gallery_id,
+          user_id,
+          image_url,
+          thumbnail_url,
+          description,
+          created_at
+        FROM user_gallery 
+        WHERE user_id = ?
+        ORDER BY created_at DESC
+        LIMIT 3
+      
+2025-12-24 18:25:59: With parameter: 1
+2025-12-24 18:25:59: Found 1 photos for user 1
+2025-12-24 18:25:59: Sending response: {
+  photos: [
+    {
+      gallery_id: 1,
+      user_id: 1,
+      image_url: '/uploads/gallery/gallery-1766600758998-259498447.png',
+      thumbnail_url: null,
+      description: '',
+      created_at: 2025-12-24T18:25:59.000Z
+    }
+  ],
+  total_count: 1,
+  user: { id: 1, name: 'Юрий' }
+}
+2025-12-24 18:26:58: [dotenv@17.2.2] injecting env (0) from .env -- tip: ⚙️  suppress all logs with { quiet: true }
+2025-12-24 18:26:58: Write access OK: /root/projects/backup_diplom/client/express/uploads
+2025-12-24 18:26:58: Write access OK: /root/projects/backup_diplom/client/express/uploads/avatars
+2025-12-24 18:26:58: Write access OK: /root/projects/backup_diplom/client/express/uploads/banners
+2025-12-24 18:26:58: Write access OK: /root/projects/backup_diplom/client/express/uploads/audio
+2025-12-24 18:26:58: Write access OK: /root/projects/backup_diplom/client/express/uploads/images
+2025-12-24 18:26:58: Write access OK: /root/projects/backup_diplom/client/express/uploads/videos
+2025-12-24 18:26:58: Write access OK: /root/projects/backup_diplom/client/express/uploads/files
+2025-12-24 18:26:58: Write access OK: /root/projects/backup_diplom/client/express/uploads/gallery
+2025-12-24 18:26:59: 🚀 Сервер запущен на http://151.247.197.250:5001
+2025-12-24 18:26:59: 📱 WebSocket сервер активен на порту 5001
+2025-12-24 18:26:59: 🕒 Время запуска: 12/24/2025, 6:26:59 PM
+2025-12-24 18:27:23: [dotenv@17.2.2] injecting env (0) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+2025-12-24 18:27:23: Write access OK: /root/projects/backup_diplom/client/express/uploads
+2025-12-24 18:27:23: Write access OK: /root/projects/backup_diplom/client/express/uploads/avatars
+2025-12-24 18:27:23: Write access OK: /root/projects/backup_diplom/client/express/uploads/banners
+2025-12-24 18:27:23: Write access OK: /root/projects/backup_diplom/client/express/uploads/audio
+2025-12-24 18:27:23: Write access OK: /root/projects/backup_diplom/client/express/uploads/images
+2025-12-24 18:27:23: Write access OK: /root/projects/backup_diplom/client/express/uploads/videos
+2025-12-24 18:27:23: Write access OK: /root/projects/backup_diplom/client/express/uploads/files
+2025-12-24 18:27:23: Write access OK: /root/projects/backup_diplom/client/express/uploads/gallery
+2025-12-24 18:27:23: 🚀 Сервер запущен на http://151.247.197.250:5001
+2025-12-24 18:27:23: 📱 WebSocket сервер активен на порту 5001
+2025-12-24 18:27:23: 🕒 Время запуска: 12/24/2025, 6:27:23 PM
+2025-12-24 18:27:32: === LOADING PROFILE API ===
+2025-12-24 18:27:32: Requested user ID: 1
+2025-12-24 18:27:32: === LOADING PROFILE API ===
+2025-12-24 18:27:32: Requested user ID: 1
+2025-12-24 18:27:32: Users found: 1
+2025-12-24 18:27:32: User data from DB: { user_id: 1, name: 'Юрий', avatar_url: null, banner_url: null }
+2025-12-24 18:27:32: User data with relative URLs: { avatar_url: null, banner_url: null }
+2025-12-24 18:27:32: Users found: 1
+2025-12-24 18:27:32: User data from DB: { user_id: 1, name: 'Юрий', avatar_url: null, banner_url: null }
+2025-12-24 18:27:32: User data with relative URLs: { avatar_url: null, banner_url: null }
+2025-12-24 18:27:32: === GALLERY API CALL ===
+2025-12-24 18:27:32: User ID: 1
+2025-12-24 18:27:32: Limit: 3
+2025-12-24 18:27:32: User found: Юрий
+2025-12-24 18:27:32: Executing query: 
+        SELECT 
+          gallery_id,
+          user_id,
+          image_url,
+          thumbnail_url,
+          description,
+          created_at
+        FROM user_gallery 
+        WHERE user_id = ?
+        ORDER BY created_at DESC
+        LIMIT 3
+      
+2025-12-24 18:27:32: With parameter: 1
+2025-12-24 18:27:32: Found 1 photos for user 1
+2025-12-24 18:27:32: Sending response: {
+  photos: [
+    {
+      gallery_id: 1,
+      user_id: 1,
+      image_url: '/uploads/gallery/gallery-1766600758998-259498447.png',
+      thumbnail_url: null,
+      description: '',
+      created_at: 2025-12-24T18:25:59.000Z
+    }
+  ],
+  total_count: 1,
+  user: { id: 1, name: 'Юрий' }
+}
+2025-12-24 18:27:33: === GALLERY API CALL ===
+2025-12-24 18:27:33: User ID: 1
+2025-12-24 18:27:33: Limit: 3
+2025-12-24 18:27:33: User found: Юрий
+2025-12-24 18:27:33: Executing query: 
+        SELECT 
+          gallery_id,
+          user_id,
+          image_url,
+          thumbnail_url,
+          description,
+          created_at
+        FROM user_gallery 
+        WHERE user_id = ?
+        ORDER BY created_at DESC
+        LIMIT 3
+      
+2025-12-24 18:27:33: With parameter: 1
+2025-12-24 18:27:33: Found 1 photos for user 1
+2025-12-24 18:27:33: Sending response: {
+  photos: [
+    {
+      gallery_id: 1,
+      user_id: 1,
+      image_url: '/uploads/gallery/gallery-1766600758998-259498447.png',
+      thumbnail_url: null,
+      description: '',
+      created_at: 2025-12-24T18:25:59.000Z
+    }
+  ],
+  total_count: 1,
+  user: { id: 1, name: 'Юрий' }
+}
+2025-12-24 18:27:43: === MULTER UPLOAD START ===
+2025-12-24 18:27:43: Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryc9HK0x3Wdf063Xqo
+2025-12-24 18:27:43: Content-Length: 2270618
+2025-12-24 18:27:43: Multer processing completed
+2025-12-24 18:27:43: Files processed: [Object: null prototype] {
+  avatar: [
+    {
+      fieldname: 'avatar',
+      originalname: 'VRChat_2025-10-11_21-29-45.409_1920x1080.png',
+      encoding: '7bit',
+      mimetype: 'image/png',
+      destination: 'uploads/avatars/',
+      filename: 'avatar-1766600863137-426699631.png',
+      path: 'uploads/avatars/avatar-1766600863137-426699631.png',
+      size: 2270210
+    }
+  ]
+}
+2025-12-24 18:27:43: Body fields: [Object: null prototype] { name: 'Юрий', bio: '' }
+2025-12-24 18:27:43: === PROFILE UPDATE START ===
+2025-12-24 18:27:43: User ID: 1
+2025-12-24 18:27:43: Name: Юрий
+2025-12-24 18:27:43: Bio: 
+2025-12-24 18:27:43: Files object: [Object: null prototype] {
+  avatar: [
+    {
+      fieldname: 'avatar',
+      originalname: 'VRChat_2025-10-11_21-29-45.409_1920x1080.png',
+      encoding: '7bit',
+      mimetype: 'image/png',
+      destination: 'uploads/avatars/',
+      filename: 'avatar-1766600863137-426699631.png',
+      path: 'uploads/avatars/avatar-1766600863137-426699631.png',
+      size: 2270210
+    }
+  ]
+}
+2025-12-24 18:27:43: Avatar file details: {
+  filename: 'avatar-1766600863137-426699631.png',
+  originalname: 'VRChat_2025-10-11_21-29-45.409_1920x1080.png',
+  size: 2270210,
+  mimetype: 'image/png',
+  path: 'uploads/avatars/avatar-1766600863137-426699631.png'
+}
+2025-12-24 18:27:43: Setting avatar_url to: /uploads/avatars/avatar-1766600863137-426699631.png
+2025-12-24 18:27:43: Executing SQL: UPDATE users SET updated_at = NOW(), name = ?, bio = ?, avatar_url = ? WHERE user_id = ?
+2025-12-24 18:27:43: With parameters: [
+  'Юрий',
+  '',
+  '/uploads/avatars/avatar-1766600863137-426699631.png',
+  '1'
+]
+2025-12-24 18:27:43: Database update result: ResultSetHeader {
+  fieldCount: 0,
+  affectedRows: 1,
+  insertId: 0,
+  info: 'Rows matched: 1  Changed: 1  Warnings: 0',
+  serverStatus: 3,
+  warningStatus: 0,
+  changedRows: 1
+}
+2025-12-24 18:27:43: Affected rows: 1
+2025-12-24 18:27:43: Final user data from database: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null,
+  bio: ''
+}
+2025-12-24 18:27:43: Transaction committed successfully
+2025-12-24 18:27:43: Avatar file exists on disk: false at path: /root/projects/backup_diplom/client/express/uploads/avatars/avatar-1766600863137-426699631.png
+2025-12-24 18:27:43: Database connection released
+2025-12-24 18:27:43: === PROFILE UPDATE END ===
+2025-12-24 18:27:44: === GALLERY API CALL ===
+2025-12-24 18:27:44: User ID: 1
+2025-12-24 18:27:44: Limit: 3
+2025-12-24 18:27:44: User found: Юрий
+2025-12-24 18:27:44: Executing query: 
+        SELECT 
+          gallery_id,
+          user_id,
+          image_url,
+          thumbnail_url,
+          description,
+          created_at
+        FROM user_gallery 
+        WHERE user_id = ?
+        ORDER BY created_at DESC
+        LIMIT 3
+      
+2025-12-24 18:27:44: With parameter: 1
+2025-12-24 18:27:44: Found 1 photos for user 1
+2025-12-24 18:27:44: Sending response: {
+  photos: [
+    {
+      gallery_id: 1,
+      user_id: 1,
+      image_url: '/uploads/gallery/gallery-1766600758998-259498447.png',
+      thumbnail_url: null,
+      description: '',
+      created_at: 2025-12-24T18:25:59.000Z
+    }
+  ],
+  total_count: 1,
+  user: { id: 1, name: 'Юрий' }
+}
+2025-12-24 18:29:55: === LOADING PROFILE API ===
+2025-12-24 18:29:55: Requested user ID: 1
+2025-12-24 18:29:55: Users found: 1
+2025-12-24 18:29:55: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:29:55: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:29:55: === LOADING PROFILE API ===
+2025-12-24 18:29:55: Requested user ID: 1
+2025-12-24 18:29:55: Users found: 1
+2025-12-24 18:29:55: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:29:55: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:29:55: === GALLERY API CALL ===
+2025-12-24 18:29:55: User ID: 1
+2025-12-24 18:29:55: Limit: 3
+2025-12-24 18:29:55: User found: Юрий
+2025-12-24 18:29:55: Executing query: 
+        SELECT 
+          gallery_id,
+          user_id,
+          image_url,
+          thumbnail_url,
+          description,
+          created_at
+        FROM user_gallery 
+        WHERE user_id = ?
+        ORDER BY created_at DESC
+        LIMIT 3
+      
+2025-12-24 18:29:55: With parameter: 1
+2025-12-24 18:29:55: Found 1 photos for user 1
+2025-12-24 18:29:55: Sending response: {
+  photos: [
+    {
+      gallery_id: 1,
+      user_id: 1,
+      image_url: '/uploads/gallery/gallery-1766600758998-259498447.png',
+      thumbnail_url: null,
+      description: '',
+      created_at: 2025-12-24T18:25:59.000Z
+    }
+  ],
+  total_count: 1,
+  user: { id: 1, name: 'Юрий' }
+}
+2025-12-24 18:29:55: === GALLERY API CALL ===
+2025-12-24 18:29:55: User ID: 1
+2025-12-24 18:29:55: Limit: 3
+2025-12-24 18:29:55: User found: Юрий
+2025-12-24 18:29:55: Executing query: 
+        SELECT 
+          gallery_id,
+          user_id,
+          image_url,
+          thumbnail_url,
+          description,
+          created_at
+        FROM user_gallery 
+        WHERE user_id = ?
+        ORDER BY created_at DESC
+        LIMIT 3
+      
+2025-12-24 18:29:55: With parameter: 1
+2025-12-24 18:29:55: Found 1 photos for user 1
+2025-12-24 18:29:55: Sending response: {
+  photos: [
+    {
+      gallery_id: 1,
+      user_id: 1,
+      image_url: '/uploads/gallery/gallery-1766600758998-259498447.png',
+      thumbnail_url: null,
+      description: '',
+      created_at: 2025-12-24T18:25:59.000Z
+    }
+  ],
+  total_count: 1,
+  user: { id: 1, name: 'Юрий' }
+}
+2025-12-24 18:29:58: Пользователь подключился: UeINKOXVIWMD1KE6AAAC
+2025-12-24 18:29:58: Пользователь подключился: 4RkAnfTKg6LPViEIAAAD
+2025-12-24 18:30:12: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:30:12: With params: [ 1 ]
+2025-12-24 18:30:13: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:30:13: With params: [ 1 ]
+2025-12-24 18:30:13: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:30:13: With params: [ 1 ]
+2025-12-24 18:30:13: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:30:13: With params: [ 1 ]
+2025-12-24 18:31:23: Пользователь подключился: UoEzRBeMyaKqsqLtAAAG
+2025-12-24 18:31:23: Пользователь подключился: 4yteDy2z2iCo4nSoAAAH
+2025-12-24 18:31:26: Пользователь подключился: 6XEM3W-wa9P1lafqAAAK
+2025-12-24 18:31:26: Пользователь подключился: FNLh4Tmbe8vKSQULAAAL
+2025-12-24 18:31:26: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:31:26: With params: [ 1 ]
+2025-12-24 18:31:26: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:31:26: With params: [ 1 ]
+2025-12-24 18:31:26: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:31:26: With params: [ 1 ]
+2025-12-24 18:31:26: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:31:26: With params: [ 1 ]
+2025-12-24 18:32:35: === LOADING PROFILE API ===
+2025-12-24 18:32:35: Requested user ID: 1
+2025-12-24 18:32:35: Users found: 1
+2025-12-24 18:32:35: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:32:35: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:32:35: === LOADING PROFILE API ===
+2025-12-24 18:32:35: Requested user ID: 1
+2025-12-24 18:32:35: Users found: 1
+2025-12-24 18:32:35: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:32:35: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:32:49: === LOADING PROFILE API ===
+2025-12-24 18:32:49: Requested user ID: 1
+2025-12-24 18:32:49: Users found: 1
+2025-12-24 18:32:49: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:32:49: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:32:49: === LOADING PROFILE API ===
+2025-12-24 18:32:49: Requested user ID: 1
+2025-12-24 18:32:49: Users found: 1
+2025-12-24 18:32:49: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:32:49: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:34:16: Adding comment: { postId: '3', user_id: 1, content: 'рпорпро' }
+2025-12-24 18:34:16: Comment added successfully: {
+  comment_id: 1,
+  post_id: 3,
+  user_id: 1,
+  parent_comment_id: null,
+  content: 'рпорпро',
+  likes_count: 0,
+  created_at: 2025-12-24T18:34:16.000Z,
+  updated_at: 2025-12-24T18:34:16.000Z,
+  user_name: 'Юрий',
+  user_email: 'Yra222225522@gmail.com'
+}
+2025-12-24 18:34:23: Пользователь подключился: oXoSQSJr60-Q5s9RAAAO
+2025-12-24 18:34:23: Пользователь подключился: kxDCVGKc2Uxb_pHpAAAP
+2025-12-24 18:35:04: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:35:04: With params: [ 1 ]
+2025-12-24 18:35:04: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:35:04: With params: [ 1 ]
+2025-12-24 18:35:05: === LOADING PROFILE API ===
+2025-12-24 18:35:05: Requested user ID: 1
+2025-12-24 18:35:05: Users found: 1
+2025-12-24 18:35:05: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:35:05: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:35:05: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:35:05: With params: [ 1 ]
+2025-12-24 18:35:05: === LOADING PROFILE API ===
+2025-12-24 18:35:05: Requested user ID: 1
+2025-12-24 18:35:05: Users found: 1
+2025-12-24 18:35:05: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:35:05: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:35:05: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:35:05: With params: [ 1 ]
+2025-12-24 18:35:05: === LOADING PROFILE API ===
+2025-12-24 18:35:05: Requested user ID: 1
+2025-12-24 18:35:05: Users found: 1
+2025-12-24 18:35:05: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:35:05: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:35:05: === LOADING PROFILE API ===
+2025-12-24 18:35:05: Requested user ID: 1
+2025-12-24 18:35:05: Users found: 1
+2025-12-24 18:35:05: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:35:05: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:35:55: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:35:55: With params: [ 1 ]
+2025-12-24 18:35:55: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:35:55: With params: [ 1 ]
+2025-12-24 18:35:55: === LOADING PROFILE API ===
+2025-12-24 18:35:55: Requested user ID: 1
+2025-12-24 18:35:55: Users found: 1
+2025-12-24 18:35:55: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:35:55: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:35:55: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:35:55: With params: [ 1 ]
+2025-12-24 18:35:55: === LOADING PROFILE API ===
+2025-12-24 18:35:55: Requested user ID: 1
+2025-12-24 18:35:55: Users found: 1
+2025-12-24 18:35:55: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:35:55: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:35:55: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:35:55: With params: [ 1 ]
+2025-12-24 18:35:55: === LOADING PROFILE API ===
+2025-12-24 18:35:55: Requested user ID: 1
+2025-12-24 18:35:55: Users found: 1
+2025-12-24 18:35:55: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:35:55: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:35:55: === LOADING PROFILE API ===
+2025-12-24 18:35:55: Requested user ID: 1
+2025-12-24 18:35:55: Users found: 1
+2025-12-24 18:35:55: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:35:55: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:36:15: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:36:15: With params: [ 1 ]
+2025-12-24 18:36:15: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:36:15: With params: [ 1 ]
+2025-12-24 18:36:15: === LOADING PROFILE API ===
+2025-12-24 18:36:15: Requested user ID: 1
+2025-12-24 18:36:15: Users found: 1
+2025-12-24 18:36:15: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:36:15: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:36:15: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:36:15: With params: [ 1 ]
+2025-12-24 18:36:15: === LOADING PROFILE API ===
+2025-12-24 18:36:15: Requested user ID: 1
+2025-12-24 18:36:15: Users found: 1
+2025-12-24 18:36:15: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:36:15: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:36:15: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:36:15: With params: [ 1 ]
+2025-12-24 18:36:15: === LOADING PROFILE API ===
+2025-12-24 18:36:15: Requested user ID: 1
+2025-12-24 18:36:15: Users found: 1
+2025-12-24 18:36:15: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:36:15: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:36:15: === LOADING PROFILE API ===
+2025-12-24 18:36:15: Requested user ID: 1
+2025-12-24 18:36:15: Users found: 1
+2025-12-24 18:36:15: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:36:15: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:38:17: Пользователь подключился: VZHSjYQxIhXkBIbGAAAS
+2025-12-24 18:38:17: Пользователь подключился: Est8NppR8TYwnoSJAAAT
+2025-12-24 18:38:46: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:38:46: With params: [ 1 ]
+2025-12-24 18:38:46: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:38:46: With params: [ 1 ]
+2025-12-24 18:38:46: === LOADING PROFILE API ===
+2025-12-24 18:38:46: Requested user ID: 1
+2025-12-24 18:38:46: Users found: 1
+2025-12-24 18:38:46: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:38:46: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:38:46: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:38:46: With params: [ 1 ]
+2025-12-24 18:38:46: === LOADING PROFILE API ===
+2025-12-24 18:38:46: Requested user ID: 1
+2025-12-24 18:38:46: Users found: 1
+2025-12-24 18:38:46: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:38:46: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:38:46: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:38:46: With params: [ 1 ]
+2025-12-24 18:38:47: === LOADING PROFILE API ===
+2025-12-24 18:38:47: Requested user ID: 1
+2025-12-24 18:38:47: Users found: 1
+2025-12-24 18:38:47: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:38:47: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:38:47: === LOADING PROFILE API ===
+2025-12-24 18:38:47: Requested user ID: 1
+2025-12-24 18:38:47: Users found: 1
+2025-12-24 18:38:47: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:38:47: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:42:10: Пользователь подключился: rrPsssntILZje1L-AAAW
+2025-12-24 18:42:10: Пользователь подключился: _ZZBB9U--EyIkog4AAAX
+2025-12-24 18:42:16: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:42:16: With params: [ 1 ]
+2025-12-24 18:42:16: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:42:16: With params: [ 1 ]
+2025-12-24 18:42:16: === LOADING PROFILE API ===
+2025-12-24 18:42:16: Requested user ID: 1
+2025-12-24 18:42:16: Users found: 1
+2025-12-24 18:42:16: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:42:16: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:42:16: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:42:16: With params: [ 1 ]
+2025-12-24 18:42:16: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:42:16: With params: [ 1 ]
+2025-12-24 18:42:16: === LOADING PROFILE API ===
+2025-12-24 18:42:16: Requested user ID: 1
+2025-12-24 18:42:16: Users found: 1
+2025-12-24 18:42:16: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:42:16: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:42:17: === LOADING PROFILE API ===
+2025-12-24 18:42:17: Requested user ID: 1
+2025-12-24 18:42:17: Users found: 1
+2025-12-24 18:42:17: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:42:17: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:42:17: === LOADING PROFILE API ===
+2025-12-24 18:42:17: Requested user ID: 1
+2025-12-24 18:42:17: Users found: 1
+2025-12-24 18:42:17: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:42:17: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:42:26: Пользователь подключился: PNAfQm3jI_wY7mCvAAAa
+2025-12-24 18:42:26: Пользователь подключился: BxXjTsVjN5rNduh0AAAb
+2025-12-24 18:42:28: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:42:28: With params: [ 1 ]
+2025-12-24 18:42:28: === LOADING PROFILE API ===
+2025-12-24 18:42:28: Requested user ID: 1
+2025-12-24 18:42:28: Users found: 1
+2025-12-24 18:42:28: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:42:28: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:42:28: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:42:28: With params: [ 1 ]
+2025-12-24 18:42:29: === LOADING PROFILE API ===
+2025-12-24 18:42:29: Requested user ID: 1
+2025-12-24 18:42:29: Users found: 1
+2025-12-24 18:42:29: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:42:29: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:42:29: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:42:29: With params: [ 1 ]
+2025-12-24 18:42:29: === LOADING PROFILE API ===
+2025-12-24 18:42:29: Requested user ID: 1
+2025-12-24 18:42:29: Users found: 1
+2025-12-24 18:42:29: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:42:29: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:42:29: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:42:29: With params: [ 1 ]
+2025-12-24 18:42:29: === LOADING PROFILE API ===
+2025-12-24 18:42:29: Requested user ID: 1
+2025-12-24 18:42:29: Users found: 1
+2025-12-24 18:42:29: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:42:29: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:43:47: Пользователь подключился: ZgBzeZpCMNwHpcMYAAAe
+2025-12-24 18:43:48: Пользователь подключился: u9nmwaljhx-vQtaOAAAf
+2025-12-24 18:43:49: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:43:49: With params: [ 1 ]
+2025-12-24 18:43:49: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:43:49: With params: [ 1 ]
+2025-12-24 18:43:49: === LOADING PROFILE API ===
+2025-12-24 18:43:49: Requested user ID: 1
+2025-12-24 18:43:49: Users found: 1
+2025-12-24 18:43:49: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:43:49: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:43:49: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:43:49: With params: [ 1 ]
+2025-12-24 18:43:50: === LOADING PROFILE API ===
+2025-12-24 18:43:50: Requested user ID: 1
+2025-12-24 18:43:50: Users found: 1
+2025-12-24 18:43:50: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:43:50: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:43:50: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:43:50: With params: [ 1 ]
+2025-12-24 18:43:50: === LOADING PROFILE API ===
+2025-12-24 18:43:50: Requested user ID: 1
+2025-12-24 18:43:50: Users found: 1
+2025-12-24 18:43:50: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:43:50: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:43:50: === LOADING PROFILE API ===
+2025-12-24 18:43:50: Requested user ID: 1
+2025-12-24 18:43:50: Users found: 1
+2025-12-24 18:43:50: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:43:50: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:43:59: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:43:59: With params: [ 1 ]
+2025-12-24 18:43:59: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:43:59: With params: [ 1 ]
+2025-12-24 18:43:59: === LOADING PROFILE API ===
+2025-12-24 18:43:59: Requested user ID: 1
+2025-12-24 18:43:59: Users found: 1
+2025-12-24 18:43:59: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:43:59: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:43:59: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:43:59: With params: [ 1 ]
+2025-12-24 18:44:00: === LOADING PROFILE API ===
+2025-12-24 18:44:00: Requested user ID: 1
+2025-12-24 18:44:00: Users found: 1
+2025-12-24 18:44:00: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:44:00: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:44:00: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:44:00: With params: [ 1 ]
+2025-12-24 18:44:00: === LOADING PROFILE API ===
+2025-12-24 18:44:00: Requested user ID: 1
+2025-12-24 18:44:00: Users found: 1
+2025-12-24 18:44:00: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:44:00: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:44:00: === LOADING PROFILE API ===
+2025-12-24 18:44:00: Requested user ID: 1
+2025-12-24 18:44:00: Users found: 1
+2025-12-24 18:44:00: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:44:00: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:44:12: Пользователь подключился: O0ZnSoss5vpAZnBjAAAi
+2025-12-24 18:44:12: Пользователь подключился: EjD7P1l2noOQVSy5AAAj
+2025-12-24 18:44:17: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:44:17: With params: [ 1 ]
+2025-12-24 18:44:17: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:44:17: With params: [ 1 ]
+2025-12-24 18:44:17: === LOADING PROFILE API ===
+2025-12-24 18:44:17: Requested user ID: 1
+2025-12-24 18:44:17: Users found: 1
+2025-12-24 18:44:17: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:44:17: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:44:17: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:44:17: With params: [ 1 ]
+2025-12-24 18:44:17: === LOADING PROFILE API ===
+2025-12-24 18:44:17: Requested user ID: 1
+2025-12-24 18:44:17: Users found: 1
+2025-12-24 18:44:17: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:44:17: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:44:17: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:44:17: With params: [ 1 ]
+2025-12-24 18:44:17: === LOADING PROFILE API ===
+2025-12-24 18:44:17: Requested user ID: 1
+2025-12-24 18:44:17: Users found: 1
+2025-12-24 18:44:17: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:44:17: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:44:18: === LOADING PROFILE API ===
+2025-12-24 18:44:18: Requested user ID: 1
+2025-12-24 18:44:18: Users found: 1
+2025-12-24 18:44:18: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:44:18: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:44:21: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:44:21: With params: [ 1 ]
+2025-12-24 18:44:21: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:44:21: With params: [ 1 ]
+2025-12-24 18:44:21: === LOADING PROFILE API ===
+2025-12-24 18:44:21: Requested user ID: 1
+2025-12-24 18:44:21: Users found: 1
+2025-12-24 18:44:21: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:44:21: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:44:21: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:44:21: With params: [ 1 ]
+2025-12-24 18:44:21: === LOADING PROFILE API ===
+2025-12-24 18:44:21: Requested user ID: 1
+2025-12-24 18:44:21: Users found: 1
+2025-12-24 18:44:21: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:44:21: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:44:21: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:44:21: With params: [ 1 ]
+2025-12-24 18:44:21: === LOADING PROFILE API ===
+2025-12-24 18:44:21: Requested user ID: 1
+2025-12-24 18:44:21: Users found: 1
+2025-12-24 18:44:21: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:44:21: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:44:21: === LOADING PROFILE API ===
+2025-12-24 18:44:21: Requested user ID: 1
+2025-12-24 18:44:21: Users found: 1
+2025-12-24 18:44:21: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:44:21: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:45:02: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:45:02: With params: [ 1 ]
+2025-12-24 18:45:02: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:45:02: With params: [ 1 ]
+2025-12-24 18:45:02: === LOADING PROFILE API ===
+2025-12-24 18:45:02: Requested user ID: 1
+2025-12-24 18:45:02: Users found: 1
+2025-12-24 18:45:02: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:45:02: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:45:02: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:45:02: With params: [ 1 ]
+2025-12-24 18:45:02: === LOADING PROFILE API ===
+2025-12-24 18:45:02: Requested user ID: 1
+2025-12-24 18:45:02: Users found: 1
+2025-12-24 18:45:02: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:45:02: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:45:03: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:45:03: With params: [ 1 ]
+2025-12-24 18:45:03: === LOADING PROFILE API ===
+2025-12-24 18:45:03: Requested user ID: 1
+2025-12-24 18:45:03: Users found: 1
+2025-12-24 18:45:03: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:45:03: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:45:03: === LOADING PROFILE API ===
+2025-12-24 18:45:03: Requested user ID: 1
+2025-12-24 18:45:03: Users found: 1
+2025-12-24 18:45:03: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:45:03: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:46:52: Пользователь подключился: A2Vcnx1ZK07ciacOAAAm
+2025-12-24 18:46:52: Пользователь подключился: XcACCDJo6YNtH3fwAAAn
+2025-12-24 18:46:57: === LOADING PROFILE API ===
+2025-12-24 18:46:57: Requested user ID: 1
+2025-12-24 18:46:57: Users found: 1
+2025-12-24 18:46:57: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:46:57: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:46:57: === LOADING PROFILE API ===
+2025-12-24 18:46:57: Requested user ID: 1
+2025-12-24 18:46:57: Users found: 1
+2025-12-24 18:46:57: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:46:57: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:46:57: === GALLERY API CALL ===
+2025-12-24 18:46:57: User ID: 1
+2025-12-24 18:46:57: Limit: 3
+2025-12-24 18:46:57: User found: Юрий
+2025-12-24 18:46:57: Executing query: 
+        SELECT 
+          gallery_id,
+          user_id,
+          image_url,
+          thumbnail_url,
+          description,
+          created_at
+        FROM user_gallery 
+        WHERE user_id = ?
+        ORDER BY created_at DESC
+        LIMIT 3
+      
+2025-12-24 18:46:57: With parameter: 1
+2025-12-24 18:46:57: Found 1 photos for user 1
+2025-12-24 18:46:57: Sending response: {
+  photos: [
+    {
+      gallery_id: 1,
+      user_id: 1,
+      image_url: '/uploads/gallery/gallery-1766600758998-259498447.png',
+      thumbnail_url: null,
+      description: '',
+      created_at: 2025-12-24T18:25:59.000Z
+    }
+  ],
+  total_count: 1,
+  user: { id: 1, name: 'Юрий' }
+}
+2025-12-24 18:46:57: === GALLERY API CALL ===
+2025-12-24 18:46:57: User ID: 1
+2025-12-24 18:46:57: Limit: 3
+2025-12-24 18:46:57: User found: Юрий
+2025-12-24 18:46:57: Executing query: 
+        SELECT 
+          gallery_id,
+          user_id,
+          image_url,
+          thumbnail_url,
+          description,
+          created_at
+        FROM user_gallery 
+        WHERE user_id = ?
+        ORDER BY created_at DESC
+        LIMIT 3
+      
+2025-12-24 18:46:57: With parameter: 1
+2025-12-24 18:46:57: Found 1 photos for user 1
+2025-12-24 18:46:57: Sending response: {
+  photos: [
+    {
+      gallery_id: 1,
+      user_id: 1,
+      image_url: '/uploads/gallery/gallery-1766600758998-259498447.png',
+      thumbnail_url: null,
+      description: '',
+      created_at: 2025-12-24T18:25:59.000Z
+    }
+  ],
+  total_count: 1,
+  user: { id: 1, name: 'Юрий' }
+}
+2025-12-24 18:47:11: Пользователь подключился: AZ4IYkBdo8I3AdAuAAAq
+2025-12-24 18:47:11: Пользователь подключился: 3eAHsYQtrXL-FDYsAAAr
+2025-12-24 18:49:09: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:49:09: With params: [ 1 ]
+2025-12-24 18:49:09: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:49:09: With params: [ 1 ]
+2025-12-24 18:49:09: === LOADING PROFILE API ===
+2025-12-24 18:49:09: Requested user ID: 1
+2025-12-24 18:49:09: Users found: 1
+2025-12-24 18:49:09: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:49:09: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:49:09: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:49:09: With params: [ 1 ]
+2025-12-24 18:49:09: === LOADING PROFILE API ===
+2025-12-24 18:49:09: Requested user ID: 1
+2025-12-24 18:49:09: Users found: 1
+2025-12-24 18:49:09: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:49:09: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:49:10: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:49:10: With params: [ 1 ]
+2025-12-24 18:49:10: === LOADING PROFILE API ===
+2025-12-24 18:49:10: Requested user ID: 1
+2025-12-24 18:49:10: Users found: 1
+2025-12-24 18:49:10: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:49:10: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:49:10: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:49:10: With params: [ 1 ]
+2025-12-24 18:49:10: === LOADING PROFILE API ===
+2025-12-24 18:49:10: Requested user ID: 1
+2025-12-24 18:49:10: Users found: 1
+2025-12-24 18:49:10: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:49:10: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:49:10: === LOADING PROFILE API ===
+2025-12-24 18:49:10: Requested user ID: 1
+2025-12-24 18:49:10: Users found: 1
+2025-12-24 18:49:10: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:49:10: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:49:11: === LOADING PROFILE API ===
+2025-12-24 18:49:11: Requested user ID: 1
+2025-12-24 18:49:11: Users found: 1
+2025-12-24 18:49:11: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:49:11: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:49:11: === LOADING PROFILE API ===
+2025-12-24 18:49:11: Requested user ID: 1
+2025-12-24 18:49:11: Users found: 1
+2025-12-24 18:49:11: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:49:11: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:49:11: === LOADING PROFILE API ===
+2025-12-24 18:49:11: Requested user ID: 1
+2025-12-24 18:49:11: Users found: 1
+2025-12-24 18:49:11: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:49:11: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:49:20: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:49:20: With params: [ 1 ]
+2025-12-24 18:49:20: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:49:20: With params: [ 1 ]
+2025-12-24 18:49:20: === LOADING PROFILE API ===
+2025-12-24 18:49:20: Requested user ID: 1
+2025-12-24 18:49:20: Users found: 1
+2025-12-24 18:49:20: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:49:20: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:49:20: === LOADING PROFILE API ===
+2025-12-24 18:49:20: Requested user ID: 1
+2025-12-24 18:49:20: Users found: 1
+2025-12-24 18:49:20: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:49:20: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:49:20: === LOADING PROFILE API ===
+2025-12-24 18:49:20: Requested user ID: 1
+2025-12-24 18:49:20: Users found: 1
+2025-12-24 18:49:20: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:49:20: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:49:21: === LOADING PROFILE API ===
+2025-12-24 18:49:21: Requested user ID: 1
+2025-12-24 18:49:21: Users found: 1
+2025-12-24 18:49:21: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:49:21: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:50:26: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:50:26: With params: [ 1 ]
+2025-12-24 18:50:27: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:50:27: With params: [ 1 ]
+2025-12-24 18:50:27: === LOADING PROFILE API ===
+2025-12-24 18:50:27: Requested user ID: 1
+2025-12-24 18:50:27: Users found: 1
+2025-12-24 18:50:27: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:50:27: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:50:27: === LOADING PROFILE API ===
+2025-12-24 18:50:27: Requested user ID: 1
+2025-12-24 18:50:27: Users found: 1
+2025-12-24 18:50:27: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:50:27: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:50:27: === LOADING PROFILE API ===
+2025-12-24 18:50:27: Requested user ID: 1
+2025-12-24 18:50:27: Users found: 1
+2025-12-24 18:50:27: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:50:27: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:50:27: === LOADING PROFILE API ===
+2025-12-24 18:50:27: Requested user ID: 1
+2025-12-24 18:50:27: Users found: 1
+2025-12-24 18:50:27: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:50:27: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:52:01: Пользователь подключился: foc-yur1tPoUPMLIAAAu
+2025-12-24 18:52:01: Пользователь подключился: Ae-65iYh6qDqUcpzAAAv
+2025-12-24 18:52:03: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:52:03: With params: [ 1 ]
+2025-12-24 18:52:03: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:52:03: With params: [ 1 ]
+2025-12-24 18:52:03: === LOADING PROFILE API ===
+2025-12-24 18:52:03: Requested user ID: 1
+2025-12-24 18:52:03: Users found: 1
+2025-12-24 18:52:03: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:52:03: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:52:03: === LOADING PROFILE API ===
+2025-12-24 18:52:03: Requested user ID: 1
+2025-12-24 18:52:03: Users found: 1
+2025-12-24 18:52:03: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:52:03: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:52:04: === LOADING PROFILE API ===
+2025-12-24 18:52:04: Requested user ID: 1
+2025-12-24 18:52:04: Users found: 1
+2025-12-24 18:52:04: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:52:04: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:52:04: === LOADING PROFILE API ===
+2025-12-24 18:52:04: Requested user ID: 1
+2025-12-24 18:52:04: Users found: 1
+2025-12-24 18:52:04: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:52:04: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:52:16: Пользователь подключился: -OXdWw06LB26erWPAAAy
+2025-12-24 18:52:16: Пользователь подключился: OkG-aDpmavUqPjNnAAAz
+2025-12-24 18:52:17: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:52:17: With params: [ 1 ]
+2025-12-24 18:52:17: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:52:17: With params: [ 1 ]
+2025-12-24 18:52:17: === LOADING PROFILE API ===
+2025-12-24 18:52:17: Requested user ID: 1
+2025-12-24 18:52:17: Users found: 1
+2025-12-24 18:52:17: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:52:17: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:52:18: Пользователь подключился: CZ7h-3TyDzdO50BUAAA2
+2025-12-24 18:52:18: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:52:18: With params: [ 1 ]
+2025-12-24 18:52:18: Пользователь подключился: nUMG0leTCZfFLZO8AAA3
+2025-12-24 18:52:18: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:52:18: With params: [ 1 ]
+2025-12-24 18:52:18: === LOADING PROFILE API ===
+2025-12-24 18:52:18: Requested user ID: 1
+2025-12-24 18:52:18: Users found: 1
+2025-12-24 18:52:18: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:52:18: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:52:18: === LOADING PROFILE API ===
+2025-12-24 18:52:18: Requested user ID: 1
+2025-12-24 18:52:18: Users found: 1
+2025-12-24 18:52:18: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:52:18: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:52:19: Пользователь подключился: FjQB9VFApsNfRH3HAAA6
+2025-12-24 18:52:19: Пользователь подключился: u6HfQ0eh1FDFwGc1AAA7
+2025-12-24 18:52:19: === LOADING PROFILE API ===
+2025-12-24 18:52:19: Requested user ID: 1
+2025-12-24 18:52:19: Users found: 1
+2025-12-24 18:52:19: User data from DB: {
+  user_id: 1,
+  name: 'Юрий',
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:52:19: User data with relative URLs: {
+  avatar_url: '/uploads/avatars/avatar-1766600863137-426699631.png',
+  banner_url: null
+}
+2025-12-24 18:52:19: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:52:19: With params: [ 1 ]
+2025-12-24 18:52:19: Executing posts query: 
+        SELECT p.*, u.name as author_name, u.email as author_email
+        FROM posts p
+        JOIN users u ON p.user_id = u.user_id
+        WHERE p.is_published = TRUE
+       AND (p.is_public = TRUE OR p.user_id = ?) ORDER BY p.created_at DESC LIMIT 10 OFFSET 0
+2025-12-24 18:52:19: With params: [ 1 ]
+2025-12-24 18:52:19: Пользователь подключился: NFU4Ntnz9jFngnr4AAA-
+2025-12-24 18:52:19: Пользователь подключился: VH1e860X7ct4TOVaAAA_

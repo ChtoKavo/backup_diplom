@@ -84,9 +84,21 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
-
         // =========================== ОБСЛУЖИВАНИЕ СТАТИЧЕСКИХ ФАЙЛОВ ============================
 
+        // Serving статических файлов из папок uploads (основная папка в корне проекта)
+        app.use('/uploads', express.static(path.join(__dirname, '../../uploads'), {
+          setHeaders: (res, path) => {
+            res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+          }
+        }));
+
+        // Fallback для локальных uploads в express папке
+        app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {
+          setHeaders: (res, path) => {
+            res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+          }
+        }));
 
         app.use('/uploads/gallery', express.static(path.join(__dirname, 'uploads/gallery'), {
     setHeaders: (res, path) => {
@@ -3646,7 +3658,7 @@ app.get('/api/chats/search', async (req, res) => {
         });
 
         server.listen(PORT, () => {
-          console.log(`🚀 Сервер запущен на http://151.241.228.247:${PORT}`);
+          console.log(`🚀 Сервер запущен на http://151.247.197.250:${PORT}`);
           console.log(`📱 WebSocket сервер активен на порту ${PORT}`);
           console.log(`🕒 Время запуска: ${new Date().toLocaleString()}`);
         });
