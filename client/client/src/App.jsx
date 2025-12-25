@@ -10,7 +10,6 @@ import Friends from './components/Friends';
 import Profile from './components/Profile';
 import AdminPanel from './components/AdminPanel';
 import Search from './components/Search';
-import Fon from '../public/фон.png';
 import Logo from '../public/Лого.png'
 import Friend from '../public/friend.png';
 import Chat from '../public/chat.png';
