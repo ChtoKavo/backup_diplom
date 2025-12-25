@@ -18,7 +18,7 @@ const ChatSelector = ({ currentUser }) => {
   const [socket, setSocket] = useState(null);
   
   const navigate = useNavigate();
-  const API_BASE_URL = 'http://151.247.197.250:5001';
+  const API_BASE_URL = 'http://localhost:5001';
 
   // Инициализация WebSocket и загрузка данных
   useEffect(() => {

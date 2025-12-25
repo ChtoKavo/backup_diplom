@@ -126,7 +126,7 @@
     formData.append('user_id', userId);
     formData.append('duration', recordingTime);
 
-    const response = await fetch('http://151.247.197.250:5001/messages/upload-voice', {
+    const response = await fetch('http://localhost:5001/messages/upload-voice', {
       method: 'POST',
       body: formData,
       credentials: 'include', // важно для CORS с куками

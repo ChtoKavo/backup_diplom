@@ -7,7 +7,7 @@
         const path = require('path');
         const multer = require('multer');
         const fs = require('fs');
-        const nodemailer = require('nodemailer')
+        // const nodemailer = require('nodemailer'); // ❌ ОТКЛЮЧЕНО - не требуется
         const bodyParser = require('body-parser');
 
 
@@ -209,6 +209,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
         let transporter = null;
         
+        // ❌ SMTP ОТКЛЮЧЕН - не требуется
+        /*
         try {
           transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
@@ -240,6 +242,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
           console.log('Email подтверждение будет отключено');
           transporter = null;
         }
+        */
+        console.log('ℹ️ Email/SMTP отключён');
 
         // =========================== НАСТРОЙКА MULTER ДЛЯ ЗАГРУЗКИ ФАЙЛОВ ============================
         const audioDir = path.join(__dirname, 'uploads/audio');
@@ -3658,7 +3662,7 @@ app.get('/api/chats/search', async (req, res) => {
         });
 
         server.listen(PORT, () => {
-          console.log(`🚀 Сервер запущен на http://151.247.197.250:${PORT}`);
+          console.log(`🚀 Сервер запущен на http://localhost:${PORT}`);
           console.log(`📱 WebSocket сервер активен на порту ${PORT}`);
           console.log(`🕒 Время запуска: ${new Date().toLocaleString()}`);
         });

@@ -34,6 +34,6 @@ export default defineConfig({
   server: {
     // Для разработки
     host: '0.0.0.0',
-    port: 3002,
+    port: 3000,
   },
 })

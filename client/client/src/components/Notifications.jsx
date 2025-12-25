@@ -6,7 +6,7 @@ const Notifications = ({ currentUser, socket }) => {
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
 
-  const API_BASE_URL = 'http://151.247.197.250:5001';
+  const API_BASE_URL = 'http://localhost:5001';
 
   useEffect(() => {
     loadNotifications();
