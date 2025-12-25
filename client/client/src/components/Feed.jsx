@@ -1,6 +1,17 @@
 // components/Feed.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Feed.css';
+import { 
+  FiHeart, FiMessageCircle, FiShare2, FiMoreVertical,
+  FiImage, FiVideo, FiMusic, FiMapPin, FiSmile,
+  FiSend, FiSearch, FiBell, FiHome, FiUsers,
+  FiBookmark, FiEye, FiRepeat, FiCalendar
+} from 'react-icons/fi';
+import { 
+  AiFillHeart, AiOutlineHeart, AiOutlineComment,
+  AiOutlineShareAlt, AiOutlineEye, AiOutlineMore
+} from 'react-icons/ai';
 
 const Feed = ({ currentUser, socket }) => {
   const [posts, setPosts] = useState([]);
@@ -9,14 +20,44 @@ const Feed = ({ currentUser, socket }) => {
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [error, setError] = useState('');
   const [socketConnected, setSocketConnected] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [activeTab, setActiveTab] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sidebarAvatar, setSidebarAvatar] = useState(currentUser?.avatar_url);
+  const loaderRef = useRef(null);
+  const navigate = useNavigate();
 
   const API_BASE_URL = 'http://localhost:5001';
 
   useEffect(() => {
     if (currentUser) {
-      loadPosts();
+      loadPosts(true);
     }
   }, [currentUser]);
+
+  useEffect(() => {
+    const loadCurrentUserAvatar = async () => {
+      try {
+        if (currentUser?.user_id) {
+          const response = await fetch(`${API_BASE_URL}/api/users/${currentUser.user_id}/profile`);
+          if (response.ok) {
+            const userData = await response.json();
+            console.log('Данные текущего пользователя:', userData);
+            if (userData.avatar_url) {
+              setSidebarAvatar(userData.avatar_url);
+            }
+          } else {
+            console.error('Ошибка загрузки профиля текущего пользователя:', response.status);
+          }
+        }
+      } catch (error) {
+        console.error('Ошибка загрузки аватарки текущего пользователя:', error);
+      }
+    };
+
+    loadCurrentUserAvatar();
+  }, [currentUser?.user_id, API_BASE_URL]);
 
   useEffect(() => {
     if (socket) {
@@ -33,6 +74,8 @@ const Feed = ({ currentUser, socket }) => {
       socket.on('post_liked', handlePostLiked);
       socket.on('post_unliked', handlePostUnliked);
       socket.on('like_error', handleLikeError);
+      socket.on('new_post', handleNewPost);
+      socket.on('new_comment', handleNewComment);
       
       return () => {
         socket.off('connect');
@@ -40,16 +83,41 @@ const Feed = ({ currentUser, socket }) => {
         socket.off('post_liked', handlePostLiked);
         socket.off('post_unliked', handlePostUnliked);
         socket.off('like_error', handleLikeError);
+        socket.off('new_post', handleNewPost);
+        socket.off('new_comment', handleNewComment);
       };
     }
   }, [socket]);
 
-  const loadPosts = async () => {
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !loading) {
+          loadPosts(false);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (loaderRef.current) {
+      observer.observe(loaderRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [hasMore, loading]);
+
+  const loadPosts = async (reset = false) => {
+    if (loading) return;
+    
     try {
       setLoading(true);
       setError('');
       
+      const currentPage = reset ? 1 : page;
       const url = new URL(`${API_BASE_URL}/api/posts`);
+      url.searchParams.append('page', currentPage.toString());
+      url.searchParams.append('limit', '10');
+      
       if (currentUser && currentUser.user_id) {
         url.searchParams.append('user_id', currentUser.user_id.toString());
       }
@@ -62,8 +130,17 @@ const Feed = ({ currentUser, socket }) => {
       
       const data = await response.json();
       
-      if (Array.isArray(data)) {
-        setPosts(data);
+      if (Array.isArray(data.posts || data)) {
+        const newPosts = data.posts || data;
+        if (reset) {
+          setPosts(newPosts);
+          setPage(2);
+        } else {
+          setPosts(prev => [...prev, ...newPosts]);
+          setPage(prev => prev + 1);
+        }
+        
+        setHasMore(newPosts.length === 10);
       } else {
         setPosts([]);
         setError('Ошибка формата данных');
@@ -71,7 +148,6 @@ const Feed = ({ currentUser, socket }) => {
     } catch (error) {
       console.error('Ошибка загрузки постов:', error);
       setError('Не удалось загрузить посты');
-      setPosts([]);
     } finally {
       setLoading(false);
     }
@@ -83,7 +159,8 @@ const Feed = ({ currentUser, socket }) => {
         return {
           ...post,
           is_liked: true,
-          likes_count: (post.likes_count || 0) + 1
+          likes_count: (post.likes_count || 0) + 1,
+          liked_users: [...(post.liked_users || []), { user_id: data.user_id }]
         };
       }
       return post;
@@ -96,7 +173,31 @@ const Feed = ({ currentUser, socket }) => {
         return {
           ...post,
           is_liked: false,
-          likes_count: Math.max(0, (post.likes_count || 1) - 1)
+          likes_count: Math.max(0, (post.likes_count || 1) - 1),
+          liked_users: (post.liked_users || []).filter(user => user.user_id !== data.user_id)
+        };
+      }
+      return post;
+    }));
+  };
+
+  const handleNewPost = (postData) => {
+    if (postData.user_id !== currentUser.user_id) {
+      setPosts(prev => [{
+        ...postData,
+        is_liked: false,
+        likes_count: 0,
+        comments_count: 0
+      }, ...prev]);
+    }
+  };
+
+  const handleNewComment = (commentData) => {
+    setPosts(prev => prev.map(post => {
+      if (post.post_id === commentData.post_id) {
+        return {
+          ...post,
+          comments_count: (post.comments_count || 0) + 1
         };
       }
       return post;
@@ -106,7 +207,7 @@ const Feed = ({ currentUser, socket }) => {
   const handleLikeError = (errorData) => {
     console.error('Like error:', errorData);
     setError(errorData.error || 'Ошибка при лайке');
-    loadPosts();
+    loadPosts(true);
   };
 
   const createPost = async (e) => {
@@ -146,13 +247,19 @@ const Feed = ({ currentUser, socket }) => {
         is_liked: false, 
         likes_count: 0, 
         comments_count: 0,
-        images: post.images || []
+        images: post.images || [],
+        author_name: currentUser.name,
+        author_avatar: currentUser.avatar_url
       };
       
       setPosts(prev => [postWithLike, ...prev]);
       setNewPost({ content: '', images: [] });
       setShowCreatePost(false);
       setError('');
+      
+      if (socket && socketConnected) {
+        socket.emit('new_post', postWithLike);
+      }
       
     } catch (error) {
       console.error('Ошибка создания поста:', error);
@@ -192,15 +299,17 @@ const Feed = ({ currentUser, socket }) => {
       } catch (error) {
         console.error('Ошибка лайка через REST:', error);
         setError(`Ошибка: ${error.message}`);
-        loadPosts();
+        loadPosts(true);
       }
       return;
     }
 
     try {
+      const post = posts.find(p => p.post_id === postId);
+      const wasLiked = post?.is_liked || false;
+      
       setPosts(prev => prev.map(post => {
         if (post.post_id === postId) {
-          const wasLiked = post.is_liked;
           return {
             ...post,
             is_liked: !wasLiked,
@@ -220,7 +329,7 @@ const Feed = ({ currentUser, socket }) => {
     } catch (error) {
       console.error('Ошибка отправки лайка через WebSocket:', error);
       setError('Не удалось поставить лайк');
-      loadPosts();
+      loadPosts(true);
     }
   };
 
@@ -230,8 +339,8 @@ const Feed = ({ currentUser, socket }) => {
     if (files.length === 0) return;
 
     const totalImages = newPost.images.length + files.length;
-    if (totalImages > 5) {
-      setError(`Можно загрузить не более 5 изображений. У вас уже ${newPost.images.length}, пытаетесь добавить еще ${files.length}`);
+    if (totalImages > 10) {
+      setError(`Можно загрузить не более 10 изображений. У вас уже ${newPost.images.length}, пытаетесь добавить еще ${files.length}`);
       e.target.value = '';
       return;
     }
@@ -240,8 +349,8 @@ const Feed = ({ currentUser, socket }) => {
     const errors = [];
 
     files.forEach(file => {
-      if (file.size > 5 * 1024 * 1024) {
-        errors.push(`Файл "${file.name}" слишком большой (максимум 5MB)`);
+      if (file.size > 10 * 1024 * 1024) {
+        errors.push(`Файл "${file.name}" слишком большой (максимум 10MB)`);
         return;
       }
       
@@ -295,37 +404,277 @@ const Feed = ({ currentUser, socket }) => {
     });
   };
 
+  const handleProfileClick = () => {
+    navigate(`/profile/${currentUser?.user_id}`);
+  };
+
   return (
-    <div className="feed-container">
-      <div className="feed-header">
-        <div className="feed-header-content">
-          <h1>Лента новостей</h1>
-          <p>Будьте в курсе последних событий</p>
+    <div className="vk-feed-container">
+      {/* Sidebar */}
+      <div className="vk-sidebar">
+        <div className="vk-sidebar-header">
+          <div className="vk-logo">
+            <div className="vk-logo-icon">VK</div>
+            <span className="vk-logo-text">Социальная сеть</span>
+          </div>
         </div>
         
-        <button 
-          className="create-post-btn"
-          onClick={() => setShowCreatePost(true)}
-        >
-          <span className="btn-icon">+</span>
-          Создать пост
-        </button>
+        <div className="vk-user-profile" onClick={handleProfileClick} style={{cursor: 'pointer'}}>
+          <div className="vk-user-avatar">
+            {sidebarAvatar ? (
+              <img 
+                src={`${API_BASE_URL}${sidebarAvatar}`} 
+                alt={currentUser.name}
+                onError={(e) => {
+                  console.error('Ошибка загрузки аватарки боковой панели:', sidebarAvatar);
+                  e.target.style.display = 'none';
+                }}
+              />
+            ) : (
+              <div className="vk-avatar-fallback">
+                {currentUser?.name?.charAt(0)?.toUpperCase() || 'U'}
+              </div>
+            )}
+          </div>
+          <div className="vk-user-info">
+            <div className="vk-user-name">{currentUser?.name || 'Пользователь'}</div>
+            <div className="vk-user-status">online</div>
+          </div>
+        </div>
+
+        <nav className="vk-nav-menu">
+          <a href="#" className="vk-nav-item active">
+            <FiHome className="vk-nav-icon" />
+            <span className="vk-nav-text">Новости</span>
+          </a>
+          <a href="#" className="vk-nav-item">
+            <FiUsers className="vk-nav-icon" />
+            <span className="vk-nav-text">Друзья</span>
+            <span className="vk-nav-badge">127</span>
+          </a>
+          <a href="#" className="vk-nav-item">
+            <FiMessageCircle className="vk-nav-icon" />
+            <span className="vk-nav-text">Сообщения</span>
+            <span className="vk-nav-badge">3</span>
+          </a>
+          <a href="#" className="vk-nav-item">
+            <FiBell className="vk-nav-icon" />
+            <span className="vk-nav-text">Уведомления</span>
+            <span className="vk-nav-badge">12</span>
+          </a>
+          <a href="#" className="vk-nav-item">
+            <FiImage className="vk-nav-icon" />
+            <span className="vk-nav-text">Фотографии</span>
+          </a>
+          <a href="#" className="vk-nav-item">
+            <FiMusic className="vk-nav-icon" />
+            <span className="vk-nav-text">Музыка</span>
+          </a>
+          <a href="#" className="vk-nav-item">
+            <FiVideo className="vk-nav-icon" />
+            <span className="vk-nav-text">Видео</span>
+          </a>
+          <a href="#" className="vk-nav-item">
+            <FiBookmark className="vk-nav-icon" />
+            <span className="vk-nav-text">Закладки</span>
+          </a>
+        </nav>
+
+        <div className="vk-sidebar-footer">
+          <button className="vk-settings-btn">
+            <FiMoreVertical className="vk-settings-icon" />
+            <span>Еще</span>
+          </button>
+        </div>
       </div>
 
-      {error && (
-        <div className="alert alert-error">
-          <span>{error}</span>
-          <button onClick={() => setError('')} className="alert-close">×</button>
-        </div>
-      )}
+      {/* Main Content */}
+      <div className="vk-main-content">
+        {/* Header */}
+        <header className="vk-header">
+          <div className="vk-search">
+            <FiSearch className="vk-search-icon" />
+            <input 
+              type="text" 
+              placeholder="Поиск по новостям, людям, сообществам..."
+              className="vk-search-input"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+          
+          <div className="vk-header-actions">
+            <button className="vk-create-post-btn" onClick={() => setShowCreatePost(true)}>
+              <FiSend className="vk-create-post-icon" />
+              Создать запись
+            </button>
+            
+            <div className="vk-notifications">
+              <FiBell className="vk-notifications-icon" />
+              <span className="vk-notifications-badge">12</span>
+            </div>
+          </div>
+        </header>
 
-      {showCreatePost && (
-        <div className="modal-overlay">
-          <div className="modal-container">
-            <div className="modal-header">
-              <h2>Создать новый пост</h2>
+        {/* Tabs */}
+        <div className="vk-tabs">
+          <button 
+            className={`vk-tab ${activeTab === 'all' ? 'active' : ''}`}
+            onClick={() => setActiveTab('all')}
+          >
+            Все
+          </button>
+          <button 
+            className={`vk-tab ${activeTab === 'friends' ? 'active' : ''}`}
+            onClick={() => setActiveTab('friends')}
+          >
+            Друзья
+          </button>
+          <button 
+            className={`vk-tab ${activeTab === 'communities' ? 'active' : ''}`}
+            onClick={() => setActiveTab('communities')}
+          >
+            Сообщества
+          </button>
+          <button 
+            className={`vk-tab ${activeTab === 'popular' ? 'active' : ''}`}
+            onClick={() => setActiveTab('popular')}
+          >
+            Популярное
+          </button>
+        </div>
+
+        {/* Create Post Button */}
+        <div className="vk-create-post-prompt">
+          <div className="vk-create-post-author">
+            <div className="vk-create-post-avatar">
+              {currentUser?.avatar_url ? (
+                <img src={`${API_BASE_URL}${currentUser.avatar_url}`} alt={currentUser.name} />
+              ) : (
+                <div className="vk-avatar-fallback">
+                  {currentUser?.name?.charAt(0)?.toUpperCase() || 'U'}
+                </div>
+              )}
+            </div>
+            <input 
+              type="text" 
+              placeholder={`Что у Вас нового, ${currentUser?.name?.split(' ')[0] || 'друг'}?`}
+              className="vk-create-post-input"
+              onClick={() => setShowCreatePost(true)}
+              readOnly
+            />
+          </div>
+          
+          <div className="vk-create-post-actions">
+            <button className="vk-media-btn">
+              <FiImage className="vk-media-icon" />
+              <span>Фото/Видео</span>
+            </button>
+            <button className="vk-media-btn">
+              <FiSmile className="vk-media-icon" />
+              <span>Чувства</span>
+            </button>
+            <button className="vk-media-btn">
+              <FiMapPin className="vk-media-icon" />
+              <span>Место</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Posts */}
+        <div className="vk-posts-container">
+          {loading && posts.length === 0 ? (
+            <div className="vk-loading">
+              <div className="vk-spinner"></div>
+              <p>Загружаем новости...</p>
+            </div>
+          ) : posts.length === 0 ? (
+            <div className="vk-empty-state">
+              <div className="vk-empty-icon">📰</div>
+              <h3>Новостей пока нет</h3>
+              <p>Будьте первым, кто поделится новостью!</p>
               <button 
-                className="modal-close"
+                className="vk-primary-btn"
+                onClick={() => setShowCreatePost(true)}
+              >
+                Написать первым
+              </button>
+            </div>
+          ) : (
+            <>
+              {posts.map((post, index) => (
+                <PostItem 
+                  key={post.post_id} 
+                  post={post} 
+                  currentUser={currentUser}
+                  onLike={handleLike}
+                  formatDate={formatDate}
+                  socketConnected={socketConnected}
+                  API_BASE_URL={API_BASE_URL}
+                  index={index}
+                />
+              ))}
+              
+              {hasMore && (
+                <div ref={loaderRef} className="vk-infinite-loader">
+                  <div className="vk-loader-dots">
+                    <div className="vk-dot"></div>
+                    <div className="vk-dot"></div>
+                    <div className="vk-dot"></div>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+
+        {/* Right Sidebar - Recommendations */}
+        <div className="vk-right-sidebar">
+          <div className="vk-recommendations">
+            <h3 className="vk-sidebar-title">Рекомендации</h3>
+            
+            <div className="vk-friend-suggestions">
+              <div className="vk-friend-card">
+                <div className="vk-friend-avatar">АБ</div>
+                <div className="vk-friend-info">
+                  <div className="vk-friend-name">Алексей Борисов</div>
+                  <div className="vk-friend-mutual">12 общих друзей</div>
+                  <button className="vk-add-friend-btn">Добавить</button>
+                </div>
+              </div>
+              
+              <div className="vk-friend-card">
+                <div className="vk-friend-avatar">МК</div>
+                <div className="vk-friend-info">
+                  <div className="vk-friend-name">Мария Кузнецова</div>
+                  <div className="vk-friend-mutual">8 общих друзей</div>
+                  <button className="vk-add-friend-btn">Добавить</button>
+                </div>
+              </div>
+            </div>
+
+            <div className="vk-birthdays">
+              <h4 className="vk-birthdays-title">Дни рождения</h4>
+              <div className="vk-birthday-item">
+                <div className="vk-birthday-avatar">ИП</div>
+                <div className="vk-birthday-info">
+                  <div className="vk-birthday-name">Иван Петров</div>
+                  <div className="vk-birthday-age">Сегодня 25 лет</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Create Post Modal */}
+      {showCreatePost && (
+        <div className="vk-modal-overlay">
+          <div className="vk-modal">
+            <div className="vk-modal-header">
+              <h3>Создание записи</h3>
+              <button 
+                className="vk-modal-close"
                 onClick={() => {
                   setShowCreatePost(false);
                   setNewPost({ content: '', images: [] });
@@ -336,142 +685,117 @@ const Feed = ({ currentUser, socket }) => {
               </button>
             </div>
             
-            <form onSubmit={createPost} className="post-form">
-              <div className="form-body">
-                <div className="current-user-info">
-                  <div className="user-avatar">
-                    {currentUser.name?.charAt(0).toUpperCase()}
-                  </div>
-                  <div className="user-details">
-                    <span className="user-name">{currentUser.name}</span>
-                    <span className="post-visibility">Публичный пост</span>
-                  </div>
-                </div>
-                
-                <textarea
-                  value={newPost.content}
-                  onChange={(e) => setNewPost({...newPost, content: e.target.value})}
-                  placeholder="Что у вас нового? Поделитесь своими мыслями..."
-                  rows="5"
-                  maxLength="2000"
-                  className="post-content-input"
-                />
-                
-                <div className="char-counter">
-                  <span>{newPost.content.length}</span>/2000
-                </div>
-
-                {newPost.images.length > 0 && (
-                  <div className="images-preview-container">
-                    <div className="images-grid">
-                      {newPost.images.map((image, index) => (
-                        <div key={index} className="preview-image-wrapper">
-                          <img 
-                            src={URL.createObjectURL(image)} 
-                            alt={`Preview ${index + 1}`} 
-                            className="preview-image"
-                          />
-                          <button 
-                            type="button" 
-                            className="remove-image-btn"
-                            onClick={() => removeImage(index)}
-                          >
-                            ×
-                          </button>
-                        </div>
-                      ))}
+            <div className="vk-modal-content">
+              <div className="vk-modal-author">
+                <div className="vk-modal-avatar">
+                  {currentUser?.avatar_url ? (
+                    <img src={`${API_BASE_URL}${currentUser.avatar_url}`} alt={currentUser.name} />
+                  ) : (
+                    <div className="vk-avatar-fallback">
+                      {currentUser?.name?.charAt(0)?.toUpperCase() || 'U'}
                     </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="form-footer">
-                <div className="form-actions">
-                  <label className="upload-btn">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      multiple
-                      onChange={handleImagesChange}
-                      disabled={newPost.images.length >= 5}
-                    />
-                    <span className="upload-icon">📷</span>
-                    <span>Фото</span>
-                    {newPost.images.length > 0 && (
-                      <span className="upload-count">({newPost.images.length}/5)</span>
-                    )}
-                  </label>
+                  )}
                 </div>
+                <div className="vk-modal-user-info">
+                  <div className="vk-modal-user-name">{currentUser?.name}</div>
+                  <select className="vk-privacy-select">
+                    <option value="public">🌍 Публичная запись</option>
+                    <option value="friends">👥 Только друзья</option>
+                    <option value="private">🔒 Только я</option>
+                  </select>
+                </div>
+              </div>
+              
+              <textarea
+                value={newPost.content}
+                onChange={(e) => setNewPost({...newPost, content: e.target.value})}
+                placeholder="Что у Вас нового?"
+                className="vk-post-textarea"
+                rows="4"
+              />
+              
+              {newPost.images.length > 0 && (
+                <div className="vk-attachment-preview">
+                  {newPost.images.map((image, index) => (
+                    <div key={index} className="vk-attachment-item">
+                      <img src={URL.createObjectURL(image)} alt={`Приложение ${index + 1}`} />
+                      <button 
+                        className="vk-remove-attachment"
+                        onClick={() => removeImage(index)}
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              
+              <div className="vk-attachment-options">
+                <label className="vk-attachment-option">
+                  <input
+                    type="file"
+                    accept="image/*,video/*"
+                    multiple
+                    onChange={handleImagesChange}
+                    disabled={newPost.images.length >= 10}
+                  />
+                  <FiImage className="vk-attachment-icon" />
+                  <span>Фото/Видео</span>
+                </label>
                 
-                <div className="form-buttons">
-                  <button 
-                    type="button" 
-                    className="btn btn-secondary"
-                    onClick={() => {
-                      setShowCreatePost(false);
-                      setNewPost({ content: '', images: [] });
-                      setError('');
-                    }}
-                  >
-                    Отмена
-                  </button>
-                  <button 
-                    type="submit" 
-                    className="btn btn-primary"
-                    disabled={!newPost.content.trim()}
-                  >
-                    Опубликовать
-                  </button>
-                </div>
+                <button className="vk-attachment-option">
+                  <FiMapPin className="vk-attachment-icon" />
+                  <span>Место</span>
+                </button>
+                
+                <button className="vk-attachment-option">
+                  <FiSmile className="vk-attachment-icon" />
+                  <span>Чувства</span>
+                </button>
+                
+                <button className="vk-attachment-option">
+                  <FiCalendar className="vk-attachment-icon" />
+                  <span>Событие</span>
+                </button>
               </div>
-            </form>
+            </div>
+            
+            <div className="vk-modal-footer">
+              <button 
+                className="vk-secondary-btn"
+                onClick={() => {
+                  setShowCreatePost(false);
+                  setNewPost({ content: '', images: [] });
+                  setError('');
+                }}
+              >
+                Отмена
+              </button>
+              <button 
+                className="vk-primary-btn"
+                onClick={createPost}
+                disabled={!newPost.content.trim()}
+              >
+                Опубликовать
+              </button>
+            </div>
           </div>
         </div>
       )}
-
-      <div className="posts-container">
-        {loading ? (
-          <div className="loading-state">
-            <div className="spinner"></div>
-            <p>Загрузка постов...</p>
-          </div>
-        ) : posts.length === 0 ? (
-          <div className="empty-state">
-            <div className="empty-icon">📰</div>
-            <h3>Лента пуста</h3>
-            <p>Начните делиться новостями с друзьями!</p>
-            <button 
-              className="btn btn-primary"
-              onClick={() => setShowCreatePost(true)}
-            >
-              Создать первый пост
-            </button>
-          </div>
-        ) : (
-          posts.map(post => (
-            <PostItem 
-              key={post.post_id} 
-              post={post} 
-              currentUser={currentUser}
-              onLike={handleLike}
-              formatDate={formatDate}
-              socketConnected={socketConnected}
-              API_BASE_URL={API_BASE_URL}
-            />
-          ))
-        )}
-      </div>
     </div>
   );
 };
 
-const PostItem = ({ post, currentUser, onLike, formatDate, socketConnected, API_BASE_URL }) => {
+const PostItem = ({ post, currentUser, onLike, formatDate, socketConnected, API_BASE_URL, index }) => {
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [loadingComments, setLoadingComments] = useState(false);
   const [authorAvatar, setAuthorAvatar] = useState(null);
   const [expandedImage, setExpandedImage] = useState(null);
+  const [isLiked, setIsLiked] = useState(post.is_liked || false);
+  const [likesCount, setLikesCount] = useState(post.likes_count || 0);
+  const [showOptions, setShowOptions] = useState(false);
 
   useEffect(() => {
     const loadAuthorAvatar = async () => {
@@ -480,9 +804,12 @@ const PostItem = ({ post, currentUser, onLike, formatDate, socketConnected, API_
           const response = await fetch(`${API_BASE_URL}/api/users/${post.user_id}/profile`);
           if (response.ok) {
             const userData = await response.json();
+            console.log('Данные профиля автора:', userData);
             if (userData.avatar_url) {
               setAuthorAvatar(userData.avatar_url);
             }
+          } else {
+            console.error('Ошибка загрузки профиля автора:', response.status);
           }
         }
       } catch (error) {
@@ -496,7 +823,7 @@ const PostItem = ({ post, currentUser, onLike, formatDate, socketConnected, API_
   const loadComments = async () => {
     if (comments.length > 0 && showComments) {
       setShowComments(false);
-      setComments([]);
+      setTimeout(() => setComments([]), 300);
       return;
     }
 
@@ -513,7 +840,7 @@ const PostItem = ({ post, currentUser, onLike, formatDate, socketConnected, API_
       
       const data = await response.json();
       setComments(Array.isArray(data) ? data : []);
-      setShowComments(true);
+      setTimeout(() => setShowComments(true), 10);
     } catch (error) {
       console.error('Ошибка загрузки комментариев:', error);
     } finally {
@@ -560,6 +887,12 @@ const PostItem = ({ post, currentUser, onLike, formatDate, socketConnected, API_
     }
   };
 
+  const handleLike = () => {
+    setIsLiked(!isLiked);
+    setLikesCount(isLiked ? likesCount - 1 : likesCount + 1);
+    onLike(post.post_id);
+  };
+
   const renderPostImages = () => {
     if (!post.image_url && !post.images) return null;
 
@@ -581,23 +914,23 @@ const PostItem = ({ post, currentUser, onLike, formatDate, socketConnected, API_
     };
 
     return (
-      <div className={`post-images ${getGridClass(images.length)}`}>
+      <div className={`vk-post-images ${getGridClass(images.length)}`}>
         {images.map((imageUrl, index) => (
           <div 
             key={index} 
-            className="post-image-item"
+            className="vk-post-image-item"
             onClick={() => setExpandedImage(imageUrl)}
           >
             <img 
               src={`${API_BASE_URL}${imageUrl}`} 
               alt={`Изображение ${index + 1}`} 
-              className="post-image"
+              className="vk-post-image"
               onError={(e) => {
                 e.target.style.display = 'none';
               }}
             />
             {images.length > 4 && index === 3 && (
-              <div className="images-overlay">
+              <div className="vk-images-overlay">
                 +{images.length - 4}
               </div>
             )}
@@ -610,127 +943,170 @@ const PostItem = ({ post, currentUser, onLike, formatDate, socketConnected, API_
   return (
     <>
       {expandedImage && (
-        <div className="image-modal" onClick={() => setExpandedImage(null)}>
+        <div className="vk-image-modal" onClick={() => setExpandedImage(null)}>
           <img 
             src={`${API_BASE_URL}${expandedImage}`} 
             alt="Expanded" 
-            className="expanded-image"
+            className="vk-expanded-image"
             onClick={(e) => e.stopPropagation()}
           />
-          <button className="close-image-modal" onClick={() => setExpandedImage(null)}>
+          <button className="vk-close-image-modal" onClick={() => setExpandedImage(null)}>
             ×
           </button>
         </div>
       )}
 
-      <article className="post-card">
-        <header className="post-header">
-          <div className="post-author">
-            <div className="author-avatar">
+      <div className="vk-post">
+        {/* Post Header */}
+        <div className="vk-post-header">
+          <div className="vk-post-author">
+            <div className="vk-post-avatar">
               {authorAvatar ? (
                 <img 
                   src={`${API_BASE_URL}${authorAvatar}`} 
                   alt="Avatar"
-                  className="avatar-image"
+                  className="vk-avatar-image"
+                  onError={(e) => {
+                    console.error('Ошибка загрузки аватарки поста:', authorAvatar);
+                    e.target.style.display = 'none';
+                  }}
                 />
               ) : (
-                <div className="avatar-fallback">
+                <div className="vk-avatar-fallback">
                   {post.author_name?.charAt(0).toUpperCase() || 'U'}
                 </div>
               )}
             </div>
-            <div className="author-info">
-              <h3 className="author-name">{post.author_name || 'Пользователь'}</h3>
-              <div className="post-meta">
-                <time className="post-time">{formatDate(post.created_at)}</time>
+            <div className="vk-post-author-info">
+              <div className="vk-post-author-name">{post.author_name || 'Пользователь'}</div>
+              <div className="vk-post-meta">
+                <span className="vk-post-time">{formatDate(post.created_at)}</span>
+                {post.is_public && <span className="vk-post-privacy">🌍</span>}
               </div>
             </div>
           </div>
-        </header>
+          
+          <div className="vk-post-options">
+            <button 
+              className="vk-options-btn"
+              onClick={() => setShowOptions(!showOptions)}
+            >
+              <AiOutlineMore />
+            </button>
+            
+            {showOptions && (
+              <div className="vk-options-dropdown">
+                <button className="vk-option-item">Скопировать ссылку</button>
+                <button className="vk-option-item">Пожаловаться</button>
+                <button className="vk-option-item">Скрыть</button>
+              </div>
+            )}
+          </div>
+        </div>
 
-        <div className="post-content">
-          <p className="post-text">{post.content}</p>
+        {/* Post Content */}
+        <div className="vk-post-content">
+          <p className="vk-post-text">{post.content}</p>
           {renderPostImages()}
         </div>
 
-        <div className="post-stats">
-          <div className="stats-item">
-            <span className="stats-icon">❤️</span>
-            <span className="stats-count">{post.likes_count || 0}</span>
+        {/* Post Stats */}
+        <div className="vk-post-stats">
+          <div className="vk-stat">
+            <AiOutlineHeart className="vk-stat-icon" />
+            <span className="vk-stat-count">{likesCount}</span>
           </div>
-          <div className="stats-item">
-            <span className="stats-icon">💬</span>
-            <span className="stats-count">{post.comments_count || 0}</span>
+          <div className="vk-stat">
+            <AiOutlineComment className="vk-stat-icon" />
+            <span className="vk-stat-count">{post.comments_count || 0}</span>
+          </div>
+          <div className="vk-stat">
+            <AiOutlineEye className="vk-stat-icon" />
+            <span className="vk-stat-count">{post.views_count || 0}</span>
+          </div>
+          <div className="vk-stat">
+            <FiRepeat className="vk-stat-icon" />
+            <span className="vk-stat-count">{post.shares_count || 0}</span>
           </div>
         </div>
 
-        <div className="post-actions">
+        {/* Post Actions */}
+        <div className="vk-post-actions">
           <button 
-            className={`action-btn ${post.is_liked ? 'liked' : ''}`}
-            onClick={() => onLike(post.post_id)}
-            title={post.is_liked ? 'Убрать лайк' : 'Поставить лайк'}
+            className={`vk-action-btn ${isLiked ? 'vk-action-liked' : ''}`}
+            onClick={handleLike}
           >
-            <span className="action-icon">
-              {post.is_liked ? '❤️' : '🤍'}
-            </span>
-            <span className="action-label">Нравится</span>
+            {isLiked ? (
+              <AiFillHeart className="vk-action-icon" />
+            ) : (
+              <AiOutlineHeart className="vk-action-icon" />
+            )}
+            <span className="vk-action-text">Нравится</span>
           </button>
           
           <button 
-            className="action-btn"
+            className="vk-action-btn"
             onClick={loadComments}
             disabled={loadingComments}
           >
-            <span className="action-icon">💬</span>
-            <span className="action-label">
+            <AiOutlineComment className="vk-action-icon" />
+            <span className="vk-action-text">
               {loadingComments ? 'Загрузка...' : 'Комментировать'}
             </span>
           </button>
+          
+          <button className="vk-action-btn">
+            <AiOutlineShareAlt className="vk-action-icon" />
+            <span className="vk-action-text">Поделиться</span>
+          </button>
         </div>
 
+        {/* Comments Section */}
         {showComments && (
-          <div className="comments-section">
-            <div className="add-comment-form">
-              <div className="comment-avatar">
-                {currentUser.name?.charAt(0).toUpperCase()}
+          <div className="vk-comments-section">
+            {/* Add Comment */}
+            <div className="vk-add-comment">
+              <div className="vk-comment-avatar">
+                {currentUser?.name?.charAt(0).toUpperCase() || 'U'}
               </div>
-              <div className="comment-input-group">
+              <div className="vk-comment-input-wrapper">
                 <input
                   type="text"
                   value={newComment}
                   onChange={(e) => setNewComment(e.target.value)}
                   onKeyPress={handleCommentKeyPress}
                   placeholder="Напишите комментарий..."
-                  className="comment-input"
+                  className="vk-comment-input"
                 />
                 <button 
                   onClick={addComment}
                   disabled={!newComment.trim()}
-                  className="comment-submit-btn"
+                  className="vk-comment-submit-btn"
                 >
-                  Отправить
+                  <FiSend />
                 </button>
               </div>
             </div>
-            
-            <div className="comments-list">
+
+            {/* Comments List */}
+            <div className="vk-comments-list">
               {comments.length === 0 ? (
-                <div className="no-comments">
+                <div className="vk-no-comments">
                   <p>Комментариев пока нет</p>
-                  <p className="hint">Будьте первым, кто оставит комментарий!</p>
+                  <p className="vk-hint">Будьте первым, кто оставит комментарий!</p>
                 </div>
               ) : (
                 comments.map(comment => (
-                  <div key={comment.comment_id} className="comment-item">
-                    <div className="comment-author-avatar">
+                  <div key={comment.comment_id} className="vk-comment">
+                    <div className="vk-comment-avatar">
                       {comment.user_name?.charAt(0).toUpperCase()}
                     </div>
-                    <div className="comment-content">
-                      <div className="comment-header">
-                        <span className="comment-author-name">{comment.user_name}</span>
-                        <span className="comment-time">{formatDate(comment.created_at)}</span>
+                    <div className="vk-comment-content">
+                      <div className="vk-comment-header">
+                        <span className="vk-comment-author">{comment.user_name}</span>
+                        <span className="vk-comment-time">{formatDate(comment.created_at)}</span>
                       </div>
-                      <p className="comment-text">{comment.content}</p>
+                      <p className="vk-comment-text">{comment.content}</p>
                     </div>
                   </div>
                 ))
@@ -738,7 +1114,7 @@ const PostItem = ({ post, currentUser, onLike, formatDate, socketConnected, API_
             </div>
           </div>
         )}
-      </article>
+      </div>
     </>
   );
 };

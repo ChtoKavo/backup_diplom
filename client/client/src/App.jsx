@@ -159,6 +159,17 @@ function MainApp({ currentUser, activeTab, setActiveTab, sidebarOpen, setSidebar
               <img src={Logo} alt="Logo" className="logo-image" />
             </div>
             
+            {/* Поле поиска */}
+            {!isMobile && (
+              <div className="header-search">
+                <input
+                  type="text"
+                  placeholder="Поиск по постам, людям, сообществам..."
+                  className="header-search-input"
+                />
+              </div>
+            )}
+            
             {/* Десктопная горизонтальная навигация */}
             {!isMobile && (
               <nav className="header-nav">

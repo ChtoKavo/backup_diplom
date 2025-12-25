@@ -4,6 +4,10 @@ import './ChatSelector.css';
 import Search from '/public/search.png';
 import Setting from '/public/settings.png';
 import io from 'socket.io-client';
+import { 
+  FiHome, FiUsers, FiBookmark, FiMoreVertical, FiMessageCircle,
+  FiMusic, FiVideo, FiImage
+} from 'react-icons/fi';
 
 const ChatSelector = ({ currentUser }) => {
   const [chats, setChats] = useState([]);
@@ -16,6 +20,7 @@ const ChatSelector = ({ currentUser }) => {
   const [userAvatars, setUserAvatars] = useState({});
   const [userStatuses, setUserStatuses] = useState({});
   const [socket, setSocket] = useState(null);
+  const [sidebarAvatar, setSidebarAvatar] = useState(currentUser?.avatar_url);
   
   const navigate = useNavigate();
   const API_BASE_URL = 'http://localhost:5001';
@@ -33,6 +38,31 @@ const ChatSelector = ({ currentUser }) => {
       }
     };
   }, [currentUser]);
+
+  // Загрузка аватара из API
+  useEffect(() => {
+    const loadCurrentUserAvatar = async () => {
+      try {
+        if (currentUser?.user_id) {
+          const response = await fetch(`${API_BASE_URL}/api/users/${currentUser.user_id}/profile`);
+          if (response.ok) {
+            const userData = await response.json();
+            if (userData.avatar_url) {
+              setSidebarAvatar(userData.avatar_url);
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Ошибка загрузки аватарки:', error);
+      }
+    };
+
+    loadCurrentUserAvatar();
+  }, [currentUser?.user_id, API_BASE_URL]);
+
+  const handleProfileClick = () => {
+    navigate(`/profile/${currentUser?.user_id}`);
+  };
 
   // Отслеживание активности пользователя
   useEffect(() => {
@@ -688,7 +718,67 @@ const ChatSelector = ({ currentUser }) => {
   }
 
   return (
-    <div className="chat-selector-rounded">
+    <div className="chat-container">
+      {/* Боковая панель */}
+      <div className="chat-sidebar">
+        <div className="chat-sidebar-header">
+          <div className="chat-logo">
+            <div className="chat-logo-icon">VK</div>
+            <span className="chat-logo-text">Мессенджер</span>
+          </div>
+        </div>
+        
+        <div className="chat-user-profile" onClick={handleProfileClick} style={{cursor: 'pointer'}}>
+          <div className="chat-user-avatar">
+            {sidebarAvatar ? (
+              <img 
+                src={`${API_BASE_URL}${sidebarAvatar}`} 
+                alt={currentUser.name}
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                }}
+              />
+            ) : (
+              <div className="chat-avatar-fallback">
+                {currentUser?.name?.charAt(0)?.toUpperCase() || 'U'}
+              </div>
+            )}
+          </div>
+          <div className="chat-user-info">
+            <div className="chat-user-name">{currentUser?.name || 'Пользователь'}</div>
+            <div className="chat-user-status">online</div>
+          </div>
+        </div>
+
+        <nav className="chat-nav-menu">
+          <a href="#" className="chat-nav-item active">
+            <FiHome className="chat-nav-icon" />
+            <span className="chat-nav-text">Сообщения</span>
+          </a>
+          <a href="#" className="chat-nav-item">
+            <FiUsers className="chat-nav-icon" />
+            <span className="chat-nav-text">Контакты</span>
+          </a>
+          <a href="#" className="chat-nav-item">
+            <FiImage className="chat-nav-icon" />
+            <span className="chat-nav-text">Медиа</span>
+          </a>
+          <a href="#" className="chat-nav-item">
+            <FiBookmark className="chat-nav-icon" />
+            <span className="chat-nav-text">Сохранено</span>
+          </a>
+        </nav>
+
+        <div className="chat-sidebar-footer">
+          <button className="chat-settings-btn">
+            <FiMoreVertical className="chat-settings-icon" />
+            <span>Еще</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Основной контент */}
+      <div className="chat-selector-rounded">
       {/* Заголовок и кнопка настроек */}
       <div className="header-section">
         <h2>Чаты</h2>
@@ -889,6 +979,7 @@ const ChatSelector = ({ currentUser }) => {
       {/* Индикатор подключения WebSocket */}
       <div className={`connection-status ${socket?.connected ? 'connected' : 'disconnected'}`}>
         {socket?.connected ? '🟢 Онлайн' : '🔴 Офлайн'}
+      </div>
       </div>
     </div>
   );
