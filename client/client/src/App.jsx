@@ -84,9 +84,9 @@ function MainApp({ currentUser, activeTab, setActiveTab, sidebarOpen, setSidebar
 
   const loadUserAvatar = async () => {
     try {
-      const response = await fetch(`http://localhost:5001/api/users/${currentUser.user_id}/avatar`);
+      const response = await fetch(`http://151.247.196.66:5001/api/users/${currentUser.user_id}/avatar`);
       if (response.ok) {
-        setUserAvatar(`http://localhost:5001/api/users/${currentUser.user_id}/avatar?t=${Date.now()}`);
+        setUserAvatar(`http://151.247.196.66:5001/api/users/${currentUser.user_id}/avatar?t=${Date.now()}`);
       } else {
         setUserAvatar(null);
       }

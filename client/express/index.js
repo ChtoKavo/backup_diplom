@@ -380,6 +380,87 @@ app.use(bodyParser.urlencoded({ extended: true }));
             socket.emit('online_users_list', onlineUsers);
           });
 
+          // Обработчик лайков постов
+          socket.on('like_post', async (data) => {
+            try {
+              const { post_id, user_id } = data;
+              
+              if (!post_id || !user_id) {
+                socket.emit('like_error', { error: 'Отсутствуют обязательные параметры' });
+                return;
+              }
+
+              const [existingLikes] = await db.execute(
+                'SELECT * FROM post_likes WHERE post_id = ? AND user_id = ?',
+                [post_id, user_id]
+              );
+
+              let is_liked;
+              let likes_count;
+
+              if (existingLikes.length > 0) {
+                // Удаляем лайк
+                await db.execute(
+                  'DELETE FROM post_likes WHERE post_id = ? AND user_id = ?',
+                  [post_id, user_id]
+                );
+                
+                await db.execute(
+                  'UPDATE posts SET likes_count = GREATEST(0, likes_count - 1) WHERE post_id = ?',
+                  [post_id]
+                );
+
+                is_liked = false;
+                
+                // Отправляем всем пользователям
+                activeUsers.forEach((socketId) => {
+                  io.to(socketId).emit('post_unliked', {
+                    post_id: parseInt(post_id),
+                    user_id: parseInt(user_id)
+                  });
+                });
+              } else {
+                // Добавляем лайк
+                await db.execute(
+                  'INSERT INTO post_likes (post_id, user_id) VALUES (?, ?)',
+                  [post_id, user_id]
+                );
+                
+                await db.execute(
+                  'UPDATE posts SET likes_count = likes_count + 1 WHERE post_id = ?',
+                  [post_id]
+                );
+
+                is_liked = true;
+                
+                // Отправляем всем пользователям
+                activeUsers.forEach((socketId) => {
+                  io.to(socketId).emit('post_liked', {
+                    post_id: parseInt(post_id),
+                    user_id: parseInt(user_id)
+                  });
+                });
+
+                // Создаем уведомление для автора поста
+                const [posts] = await db.execute(
+                  'SELECT user_id FROM posts WHERE post_id = ?',
+                  [post_id]
+                );
+                
+                if (posts.length > 0 && posts[0].user_id !== user_id) {
+                  await db.execute(
+                    'INSERT INTO notifications (user_id, from_user_id, type, post_id) VALUES (?, ?, "like", ?)',
+                    [posts[0].user_id, user_id, post_id]
+                  );
+                }
+              }
+
+            } catch (error) {
+              console.error('Ошибка лайка через WebSocket:', error);
+              socket.emit('like_error', { error: 'Не удалось обработать лайк' });
+            }
+          });
+
           socket.on('get_user_status', async (userIds) => {
             try {
               if (!Array.isArray(userIds) || userIds.length === 0) return;
@@ -2520,6 +2601,16 @@ app.get('/api/chats/search', async (req, res) => {
         images: postImages.map(img => img.image_url) // добавляем массив изображений
       };
 
+      // ИСПРАВЛЕНИЕ: Рассылаем новый пост ВСЕМ активным пользователям
+      console.log('Broadcasting new post to all users:', postWithCounts.post_id);
+      
+      // Отправляем всем активным пользователям
+      activeUsers.forEach((socketId, userId) => {
+        io.to(socketId).emit('new_post', postWithCounts);
+      });
+      
+      console.log(`Post broadcasted to ${activeUsers.size} active users`);
+
       res.status(201).json(postWithCounts);
     } catch (error) {
       console.error('Error creating post:', error);
@@ -3662,7 +3753,7 @@ app.get('/api/chats/search', async (req, res) => {
         });
 
         server.listen(PORT, () => {
-          console.log(`🚀 Сервер запущен на http://localhost:${PORT}`);
+          console.log(`🚀 Сервер запущен на http://151.247.196.66:${PORT}`);
           console.log(`📱 WebSocket сервер активен на порту ${PORT}`);
           console.log(`🕒 Время запуска: ${new Date().toLocaleString()}`);
         });

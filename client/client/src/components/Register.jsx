@@ -14,10 +14,10 @@ const Register = ({ onRegister, onSwitchToLogin, onSuccess }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [step, setStep] = useState('personal'); // personal -> credentials -> categories -> confirm
+  const [step, setStep] = useState('personal');
   const [acceptedTerms, setAcceptedTerms] = useState(false);
 
-  const API_BASE_URL = 'http://localhost:5001';
+  const API_BASE_URL = 'http://151.247.196.66:5001';
 
   // Категории для выбора
   const availableCategories = [

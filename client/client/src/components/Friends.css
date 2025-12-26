@@ -342,14 +342,52 @@
   animation: slideIn 0.4s ease-out;
   height: 60px;
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.header-left {
+  flex-shrink: 0;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  justify-content: flex-end;
 }
 
 .friends-header h1 {
   font-size: 28px;
   font-weight: 700;
   color: var(--vk-text-primary);
-  margin: 0 0 16px 0;
+  margin: 0;
   letter-spacing: -0.5px;
+}
+
+.find-friends-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, var(--orange-primary), var(--orange-dark));
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.find-friends-btn:hover {
+  background: linear-gradient(135deg, var(--orange-dark), var(--orange-darker));
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 167, 5, 0.4);
 }
 
 /* Search Box */
@@ -402,8 +440,8 @@
 /* ===== GRID LAYOUT ===== */
 .friends-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
   animation: fadeIn 0.6s ease-out;
   padding: 24px;
 }
@@ -412,10 +450,10 @@
 .friend-grid-card {
   background-color: var(--vk-white);
   border-radius: var(--vk-card-radius);
-  padding: 16px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
   overflow: hidden;
@@ -451,8 +489,8 @@
 }
 
 .friend-grid-avatar {
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   margin: 0 auto;
   border-radius: 50%;
   overflow: hidden;
@@ -1385,11 +1423,24 @@
 
   .friends-header {
     padding: 16px 16px;
+    flex-direction: column;
+    align-items: stretch;
+    height: auto;
+    gap: 12px;
+  }
+
+  .header-left {
+    text-align: center;
+  }
+
+  .header-right {
+    flex-direction: column;
+    gap: 12px;
   }
 
   .friends-header h1 {
     font-size: 24px;
-    margin-bottom: 12px;
+    margin: 0;
   }
 
   .search-input {

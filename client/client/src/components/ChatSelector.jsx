@@ -21,7 +21,7 @@ const ChatSelector = ({ currentUser }) => {
   const [sidebarAvatar, setSidebarAvatar] = useState(currentUser?.avatar_url);
   
   const navigate = useNavigate();
-  const API_BASE_URL = 'http://localhost:5001';
+  const API_BASE_URL = 'http://151.247.196.66:5001';
 
   useEffect(() => {
     if (currentUser) {

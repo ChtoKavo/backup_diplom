@@ -18,7 +18,7 @@ const Friends = ({ currentUserId: propCurrentUserId, onViewProfile }) => {
   const [sidebarAvatar, setSidebarAvatar] = useState(null);
 
   // Базовый URL API
-  const API_BASE = 'http://localhost:5001';
+  const API_BASE = 'http://151.247.196.66:5001';
 
   // Получаем user_id из различных источников
   const getCurrentUserId = () => {
@@ -500,24 +500,37 @@ const Friends = ({ currentUserId: propCurrentUserId, onViewProfile }) => {
       {/* Центральная колонка - Основной контент */}
       <div className="friends-main">
         <div className="friends-header">
-          <h1>
-            {activeTab === 'all' && 'Друзья'}
-            {activeTab === 'online' && 'Друзья онлайн'}
-            {activeTab === 'requests' && 'Заявки в друзья'}
-            {activeTab === 'find' && 'Найти друзей'}
-          </h1>
+          <div className="header-left">
+            <h1>
+              {activeTab === 'all' && 'Друзья'}
+              {activeTab === 'online' && 'Друзья онлайн'}
+              {activeTab === 'requests' && 'Заявки в друзья'}
+              {activeTab === 'find' && 'Найти друзей'}
+            </h1>
+          </div>
           
-          {(activeTab === 'all' || activeTab === 'online' || activeTab === 'find') && (
-            <div className="search-box">
-              <input 
-                type="text" 
-                placeholder="Поиск друзей..."
-                className="search-input"
-                value={searchQuery}
-                onChange={(e) => handleSearch(e.target.value)}
-              />
-            </div>
-          )}
+          <div className="header-right">
+            {(activeTab === 'all' || activeTab === 'online' || activeTab === 'find') && (
+              <div className="search-box">
+                <input 
+                  type="text" 
+                  placeholder="Поиск друзей..."
+                  className="search-input"
+                  value={searchQuery}
+                  onChange={(e) => handleSearch(e.target.value)}
+                />
+              </div>
+            )}
+            
+            {activeTab !== 'find' && (
+              <button 
+                className="find-friends-btn"
+                onClick={() => setActiveTab('find')}
+              >
+                🔍 Найти друзей
+              </button>
+            )}
+          </div>
         </div>
 
         {loading && (

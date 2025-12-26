@@ -49,7 +49,7 @@ const Profile = ({ currentUser }) => {
     image: null
   });
 
-  const API_BASE_URL = 'http://localhost:5001';
+  const API_BASE_URL = 'http://151.247.196.66:5001';
 
   // Определяем, это свой профиль или чужой - теперь используем userId из URL
   const targetUserId = userId || currentUser?.user_id;

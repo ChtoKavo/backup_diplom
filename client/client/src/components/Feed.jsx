@@ -17,7 +17,7 @@ import {
 const Feed = ({ currentUser, socket }) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [newPost, setNewPost] = useState({ content: '', images: [] });
+  const [newPost, setNewPost] = useState({ content: '', images: [], privacy: 'public' });
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [error, setError] = useState('');
   const [socketConnected, setSocketConnected] = useState(false);
@@ -29,7 +29,7 @@ const Feed = ({ currentUser, socket }) => {
   const loaderRef = useRef(null);
   const navigate = useNavigate();
 
-  const API_BASE_URL = 'http://localhost:5001';
+  const API_BASE_URL = 'http://151.247.196.66:5001';
 
   useEffect(() => {
     if (currentUser) {
@@ -66,6 +66,10 @@ const Feed = ({ currentUser, socket }) => {
 
       socket.on('connect', () => {
         setSocketConnected(true);
+        // Регистрируем пользователя при подключении
+        if (currentUser?.user_id) {
+          socket.emit('register_user', currentUser.user_id);
+        }
       });
 
       socket.on('disconnect', () => {
@@ -78,6 +82,11 @@ const Feed = ({ currentUser, socket }) => {
       socket.on('new_post', handleNewPost);
       socket.on('new_comment', handleNewComment);
       
+      // Регистрируем пользователя, если уже подключен
+      if (socket.connected && currentUser?.user_id) {
+        socket.emit('register_user', currentUser.user_id);
+      }
+      
       return () => {
         socket.off('connect');
         socket.off('disconnect');
@@ -88,7 +97,7 @@ const Feed = ({ currentUser, socket }) => {
         socket.off('new_comment', handleNewComment);
       };
     }
-  }, [socket]);
+  }, [socket, currentUser?.user_id]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -183,14 +192,21 @@ const Feed = ({ currentUser, socket }) => {
   };
 
   const handleNewPost = (postData) => {
-    if (postData.user_id !== currentUser.user_id) {
-      setPosts(prev => [{
+    // Добавляем новый пост в ленту для всех пользователей
+    setPosts(prev => {
+      // Проверяем, нет ли уже этого поста в ленте
+      const existingPost = prev.find(p => p.post_id === postData.post_id);
+      if (existingPost) {
+        return prev; // Пост уже есть, не добавляем дубликат
+      }
+      
+      return [{
         ...postData,
         is_liked: false,
         likes_count: 0,
         comments_count: 0
-      }, ...prev]);
-    }
+      }, ...prev];
+    });
   };
 
   const handleNewComment = (commentData) => {
@@ -224,7 +240,7 @@ const Feed = ({ currentUser, socket }) => {
       formData.append('user_id', currentUser.user_id.toString());
       formData.append('title', newPost.content.substring(0, 100));
       formData.append('content', newPost.content);
-      formData.append('is_public', '1');
+      formData.append('is_public', newPost.privacy === 'public' ? '1' : '0');
       formData.append('category_id', '1');
       
       newPost.images.forEach((image) => {
@@ -253,14 +269,14 @@ const Feed = ({ currentUser, socket }) => {
         author_avatar: currentUser.avatar_url
       };
       
+      // Добавляем пост в локальную ленту сразу для создателя
       setPosts(prev => [postWithLike, ...prev]);
-      setNewPost({ content: '', images: [] });
+      setNewPost({ content: '', images: [], privacy: 'public' });
       setShowCreatePost(false);
       setError('');
       
-      if (socket && socketConnected) {
-        socket.emit('new_post', postWithLike);
-      }
+      // НЕ отправляем через socket, так как сервер сам разошлет всем пользователям
+      // Сервер уже отправит новый пост всем активным пользователям через WebSocket
       
     } catch (error) {
       console.error('Ошибка создания поста:', error);
@@ -672,7 +688,7 @@ const Feed = ({ currentUser, socket }) => {
                 className="vk-modal-close"
                 onClick={() => {
                   setShowCreatePost(false);
-                  setNewPost({ content: '', images: [] });
+                  setNewPost({ content: '', images: [], privacy: 'public' });
                   setError('');
                 }}
               >
@@ -693,7 +709,11 @@ const Feed = ({ currentUser, socket }) => {
                 </div>
                 <div className="vk-modal-user-info">
                   <div className="vk-modal-user-name">{currentUser?.name}</div>
-                  <select className="vk-privacy-select">
+                  <select 
+                    className="vk-privacy-select"
+                    value={newPost.privacy}
+                    onChange={(e) => setNewPost({...newPost, privacy: e.target.value})}
+                  >
                     <option value="public">🌍 Публичная запись</option>
                     <option value="friends">👥 Только друзья</option>
                     <option value="private">🔒 Только я</option>
@@ -760,7 +780,7 @@ const Feed = ({ currentUser, socket }) => {
                 className="vk-secondary-btn"
                 onClick={() => {
                   setShowCreatePost(false);
-                  setNewPost({ content: '', images: [] });
+                  setNewPost({ content: '', images: [], privacy: 'public' });
                   setError('');
                 }}
               >
