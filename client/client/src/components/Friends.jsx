@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './Friends.css';
+import { 
+  FiHome, FiUsers, FiMessageCircle, FiBell,
+  FiImage, FiMusic, FiVideo, FiBookmark, FiMoreVertical
+} from 'react-icons/fi';
 
 const Friends = ({ currentUserId: propCurrentUserId, onViewProfile }) => {
   const [activeTab, setActiveTab] = useState('all');
@@ -10,6 +14,8 @@ const Friends = ({ currentUserId: propCurrentUserId, onViewProfile }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [sidebarAvatar, setSidebarAvatar] = useState(null);
 
   // Базовый URL API
   const API_BASE = 'http://localhost:5001';
@@ -54,6 +60,28 @@ const Friends = ({ currentUserId: propCurrentUserId, onViewProfile }) => {
       onViewProfile(userId);
     }
   };
+
+  // Загрузка профиля пользователя
+  useEffect(() => {
+    const loadUserProfile = async () => {
+      try {
+        if (currentUserId) {
+          const response = await fetch(`${API_BASE}/api/users/${currentUserId}/profile`);
+          if (response.ok) {
+            const userData = await response.json();
+            setCurrentUser(userData);
+            if (userData.avatar_url) {
+              setSidebarAvatar(userData.avatar_url);
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Ошибка загрузки профиля:', error);
+      }
+    };
+
+    loadUserProfile();
+  }, [currentUserId]);
 
   // Загрузка данных при изменении вкладки
   useEffect(() => {
@@ -395,37 +423,77 @@ const Friends = ({ currentUserId: propCurrentUserId, onViewProfile }) => {
 
   return (
     <div className="friends-page">
-      {/* Левая колонка - Основные вкладки */}
+      {/* Sidebar */}
       <div className="friends-sidebar">
-        <div className="sidebar-section">
-          <div 
-            className={`sidebar-item ${activeTab === 'all' ? 'active' : ''}`}
-            onClick={() => setActiveTab('all')}
-          >
-            Все друзья
-            {friends.length > 0 && <span className="count-badge">{friends.length}</span>}
+
+        
+        {currentUser && (
+          <div className="sidebar-user-profile" onClick={() => handleViewProfile(currentUserId)} style={{cursor: 'pointer'}}>
+            <div className="sidebar-user-avatar">
+              {sidebarAvatar ? (
+                <img 
+                  src={`${API_BASE}${sidebarAvatar}`} 
+                  alt={currentUser.name}
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                  }}
+                />
+              ) : (
+                <div className="sidebar-avatar-fallback">
+                  {currentUser?.name?.charAt(0)?.toUpperCase() || 'U'}
+                </div>
+              )}
+            </div>
+            <div className="sidebar-user-info">
+              <div className="sidebar-user-name">{currentUser?.name || 'Пользователь'}</div>
+              <div className="sidebar-user-status">online</div>
+            </div>
           </div>
-          <div 
-            className={`sidebar-item ${activeTab === 'online' ? 'active' : ''}`}
-            onClick={() => setActiveTab('online')}
-          >
-            Друзья онлайн
-          </div>
-          <div 
-            className={`sidebar-item ${activeTab === 'requests' ? 'active' : ''}`}
-            onClick={() => setActiveTab('requests')}
-          >
-            Заявки в друзья
-            {friendRequests.length > 0 && (
-              <span className="count-badge alert">{friendRequests.length}</span>
-            )}
-          </div>
-          <div 
-            className={`sidebar-item ${activeTab === 'find' ? 'active' : ''}`}
-            onClick={() => setActiveTab('find')}
-          >
-            Найти друзей
-          </div>
+        )}
+        
+        <nav className="sidebar-nav-menu">
+          <a href="#" className="sidebar-nav-item">
+            <FiHome className="sidebar-nav-icon" />
+            <span className="sidebar-nav-text">Новости</span>
+          </a>
+          <a href="#" className={`sidebar-nav-item ${activeTab === 'all' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setActiveTab('all'); }}>
+            <FiUsers className="sidebar-nav-icon" />
+            <span className="sidebar-nav-text">Друзья</span>
+            {friends.length > 0 && <span className="sidebar-nav-badge">{friends.length}</span>}
+          </a>
+          <a href="#" className="sidebar-nav-item">
+            <FiMessageCircle className="sidebar-nav-icon" />
+            <span className="sidebar-nav-text">Сообщения</span>
+            <span className="sidebar-nav-badge">3</span>
+          </a>
+          <a href="#" className={`sidebar-nav-item ${activeTab === 'requests' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setActiveTab('requests'); }}>
+            <FiBell className="sidebar-nav-icon" />
+            <span className="sidebar-nav-text">Уведомления</span>
+            {friendRequests.length > 0 && <span className="sidebar-nav-badge alert">{friendRequests.length}</span>}
+          </a>
+          <a href="#" className="sidebar-nav-item">
+            <FiImage className="sidebar-nav-icon" />
+            <span className="sidebar-nav-text">Фотографии</span>
+          </a>
+          <a href="#" className="sidebar-nav-item">
+            <FiMusic className="sidebar-nav-icon" />
+            <span className="sidebar-nav-text">Музыка</span>
+          </a>
+          <a href="#" className="sidebar-nav-item">
+            <FiVideo className="sidebar-nav-icon" />
+            <span className="sidebar-nav-text">Видео</span>
+          </a>
+          <a href="#" className="sidebar-nav-item">
+            <FiBookmark className="sidebar-nav-icon" />
+            <span className="sidebar-nav-text">Закладки</span>
+          </a>
+        </nav>
+
+        <div className="sidebar-footer">
+          <button className="sidebar-settings-btn">
+            <FiMoreVertical className="sidebar-settings-icon" />
+            <span>Еще</span>
+          </button>
         </div>
       </div>
 
@@ -433,7 +501,7 @@ const Friends = ({ currentUserId: propCurrentUserId, onViewProfile }) => {
       <div className="friends-main">
         <div className="friends-header">
           <h1>
-            {activeTab === 'all' && 'Все друзья'}
+            {activeTab === 'all' && 'Друзья'}
             {activeTab === 'online' && 'Друзья онлайн'}
             {activeTab === 'requests' && 'Заявки в друзья'}
             {activeTab === 'find' && 'Найти друзей'}
@@ -464,14 +532,24 @@ const Friends = ({ currentUserId: propCurrentUserId, onViewProfile }) => {
           {activeTab === 'all' && (
             <div className="friends-grid">
               {friends.length === 0 ? (
-                <div className="empty-state">
-                  <p>У вас пока нет друзей</p>
-                  <button 
-                    className="find-friends-btn"
-                    onClick={() => setActiveTab('find')}
-                  >
-                    Найти друзей
-                  </button>
+                <div className="empty-state empty-friends">
+                  <div className="empty-icon">👥</div>
+                  <h2>У вас пока нет друзей</h2>
+                  <p>Начните добавлять друзей, чтобы общаться и делиться моментами</p>
+                  <div className="empty-actions">
+                    <button 
+                      className="primary-btn find-friends-action"
+                      onClick={() => setActiveTab('find')}
+                    >
+                      🔍 Найти друзей
+                    </button>
+                    <button 
+                      className="secondary-btn find-requests-action"
+                      onClick={() => setActiveTab('requests')}
+                    >
+                      📬 Заявки в друзья ({friendRequests.length})
+                    </button>
+                  </div>
                 </div>
               ) : (
                 friends.map(friend => (
@@ -492,8 +570,16 @@ const Friends = ({ currentUserId: propCurrentUserId, onViewProfile }) => {
           {activeTab === 'online' && (
             <div className="friends-grid">
               {friends.length === 0 ? (
-                <div className="empty-state">
-                  <p>Нет друзей онлайн</p>
+                <div className="empty-state empty-online">
+                  <div className="empty-icon">🟢</div>
+                  <h2>Нет друзей онлайн</h2>
+                  <p>Друзья появятся здесь, когда они будут в сети</p>
+                  <button 
+                    className="secondary-btn"
+                    onClick={() => setActiveTab('all')}
+                  >
+                    ← Вернуться к списку друзей
+                  </button>
                 </div>
               ) : (
                 friends.map(friend => (
@@ -514,8 +600,16 @@ const Friends = ({ currentUserId: propCurrentUserId, onViewProfile }) => {
           {activeTab === 'requests' && (
             <div className="requests-list">
               {friendRequests.length === 0 ? (
-                <div className="empty-state">
-                  <p>Нет новых заявок в друзья</p>
+                <div className="empty-state empty-requests">
+                  <div className="empty-icon">📬</div>
+                  <h2>Нет новых заявок</h2>
+                  <p>Когда люди отправят вам заявки в друзья, они появятся здесь</p>
+                  <button 
+                    className="secondary-btn"
+                    onClick={() => setActiveTab('find')}
+                  >
+                    🔍 Найти друзей и отправить заявки
+                  </button>
                 </div>
               ) : (
                 friendRequests.map(request => (
@@ -535,10 +629,15 @@ const Friends = ({ currentUserId: propCurrentUserId, onViewProfile }) => {
             <div className="find-friends-content">
               {searchQuery ? (
                 <div className="search-results">
-                  <h3>Результаты поиска: "{searchQuery}"</h3>
+                  <div className="search-results-header">
+                    <h3>🔍 Результаты: "{searchQuery}"</h3>
+                    <span className="results-count">{searchResults.length} {searchResults.length === 1 ? 'результат' : 'результатов'}</span>
+                  </div>
                   {searchResults.length === 0 ? (
-                    <div className="empty-state">
-                      <p>Пользователи не найдены</p>
+                    <div className="empty-state empty-search">
+                      <div className="empty-icon">🔎</div>
+                      <h2>Пользователи не найдены</h2>
+                      <p>Попробуйте другой поисковый запрос или посмотрите предложения ниже</p>
                     </div>
                   ) : (
                     <div className="suggestions-grid">
@@ -556,10 +655,12 @@ const Friends = ({ currentUserId: propCurrentUserId, onViewProfile }) => {
                 </div>
               ) : (
                 <div className="suggestions-section">
-                  <h3>Возможные друзья</h3>
+                  <h3>✨ Возможные друзья</h3>
                   {suggestedFriends.length === 0 ? (
-                    <div className="empty-state">
-                      <p>Нет предложений друзей</p>
+                    <div className="empty-state empty-suggestions">
+                      <div className="empty-icon">✨</div>
+                      <h2>Нет предложений</h2>
+                      <p>Когда появятся новые пользователи, мы покажем их вам</p>
                     </div>
                   ) : (
                     <div className="suggestions-grid">
@@ -619,17 +720,18 @@ const FriendGridCard = ({
         onClick={handleViewProfile}
         style={{ cursor: 'pointer', flex: 1 }}
       >
-        <div className="friend-grid-name">{user.name}</div>
+        <div className="friend-grid-name" title={user.name}>{user.name}</div>
         <div className="friend-grid-status">
-          {user.is_online ? 'В сети' : `Был(а) в сети ${new Date(user.last_seen).toLocaleDateString()}`}
+          <span>{user.is_online ? '🟢 В сети' : `⏱️ ${new Date(user.last_seen).toLocaleDateString()}`}</span>
         </div>
-        <div className="friend-grid-email">{user.email}</div>
+        <div className="friend-grid-email" title={user.email}>{user.email}</div>
       </div>
 
       <div className="friend-grid-actions">
         <button 
           className="more-actions-btn"
           onClick={() => toggleActions(user.user_id)}
+          title="Больше действий"
         >
           ⋮
         </button>
@@ -637,24 +739,39 @@ const FriendGridCard = ({
         {showActions === user.user_id && (
           <div className="actions-dropdown">
             <div className="dropdown-item" onClick={handleViewProfile}>
-              Посмотреть профиль
+              👤 Посмотреть профиль
             </div>
             <div className="dropdown-item" onClick={startChat}>
-              Написать сообщение
+              💬 Написать сообщение
             </div>
             <div className="dropdown-item remove" onClick={() => onRemoveFriend(user.user_id)}>
-              Удалить из друзей
+              ❌ Удалить из друзей
             </div>
           </div>
         )}
       </div>
 
       <div className="friend-grid-buttons">
-        <button className="action-btn message-btn" onClick={startChat}>
-          Написать
+        <button 
+          className="action-btn message-btn" 
+          onClick={startChat}
+          title="Отправить сообщение"
+        >
+          💬 Написать
         </button>
-        <button className="action-btn profile-btn" onClick={handleViewProfile}>
-          Профиль
+        <button 
+          className="action-btn profile-btn" 
+          onClick={handleViewProfile}
+          title="Перейти на профиль"
+        >
+          👤 Профиль
+        </button>
+        <button 
+          className="action-btn remove-btn" 
+          onClick={() => onRemoveFriend(user.user_id)}
+          title="Удалить из друзей"
+        >
+          ✕ Удалить
         </button>
       </div>
     </div>
@@ -693,7 +810,7 @@ const FriendRequestCard = ({ request, onRespond, renderAvatar, onViewProfile }) 
         <div className="request-name">{request.from_user_name}</div>
         <div className="request-email">{request.from_user_email}</div>
         <div className="request-time">
-          {new Date(request.created_at).toLocaleDateString()}
+          📅 {new Date(request.created_at).toLocaleDateString()}
         </div>
       </div>
         
@@ -701,20 +818,23 @@ const FriendRequestCard = ({ request, onRespond, renderAvatar, onViewProfile }) 
         <button 
           className="accept-btn"
           onClick={() => onRespond(request.friendship_id, 'accepted')}
+          title="Принять заявку"
         >
-          Принять
+          ✓ Принять
         </button>
         <button 
           className="decline-btn"
           onClick={() => onRespond(request.friendship_id, 'declined')}
+          title="Отклонить заявку"
         >
-          Отклонить
+          ✕ Отклонить
         </button>
         <button 
           className="view-profile-btn"
           onClick={handleViewProfile}
+          title="Посмотреть профиль"
         >
-          Профиль
+          👤 Профиль
         </button>
       </div>
     </div>
@@ -755,27 +875,35 @@ const UserCard = ({ user, onAddFriend, renderAvatar, onViewProfile }) => {
         <div className="user-name">{user.name}</div>
         <div className="user-email">{user.email}</div>
         <div className="user-status">
-          {user.is_online ? 'В сети' : 'Не в сети'}
+          {user.is_online ? '🟢 В сети' : '⚫ Не в сети'}
         </div>
         {user.mutual_friends > 0 && (
           <div className="mutual-friends">
-            {user.mutual_friends} общих друзей
+            👥 {user.mutual_friends} общих друзей
           </div>
         )}
       </div>
       
       <div className="user-actions">
         {requestSent ? (
-          <button className="request-sent-btn" disabled>
-            Запрос отправлен
+          <button className="request-sent-btn" disabled title="Запрос уже отправлен">
+            ⏳ Запрос отправлен
           </button>
         ) : (
-          <button className="add-friend-btn" onClick={handleAddFriend}>
-            Добавить в друзья
+          <button 
+            className="add-friend-btn" 
+            onClick={handleAddFriend}
+            title="Добавить в друзья"
+          >
+            ➕ Добавить
           </button>
         )}
-        <button className="view-profile-btn" onClick={handleViewProfile}>
-          Профиль
+        <button 
+          className="view-profile-btn" 
+          onClick={handleViewProfile}
+          title="Посмотреть профиль"
+        >
+          👤 Профиль
         </button>
       </div>
     </div>

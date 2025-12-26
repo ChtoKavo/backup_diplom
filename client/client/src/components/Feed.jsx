@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Feed.css';
+import './Friends.css';
 import { 
   FiHeart, FiMessageCircle, FiShare2, FiMoreVertical,
   FiImage, FiVideo, FiMusic, FiMapPin, FiSmile,
@@ -409,80 +410,74 @@ const Feed = ({ currentUser, socket }) => {
   };
 
   return (
-    <div className="vk-feed-container">
+    <div className="friends-page">
       {/* Sidebar */}
-      <div className="vk-sidebar">
-        <div className="vk-sidebar-header">
-          <div className="vk-logo">
-            <div className="vk-logo-icon">VK</div>
-            <span className="vk-logo-text">Социальная сеть</span>
+      <div className="friends-sidebar">
+        {currentUser && (
+          <div className="sidebar-user-profile" onClick={handleProfileClick} style={{cursor: 'pointer'}}>
+            <div className="sidebar-user-avatar">
+              {sidebarAvatar ? (
+                <img 
+                  src={`${API_BASE_URL}${sidebarAvatar}`} 
+                  alt={currentUser.name}
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                  }}
+                />
+              ) : (
+                <div className="sidebar-avatar-fallback">
+                  {currentUser?.name?.charAt(0)?.toUpperCase() || 'U'}
+                </div>
+              )}
+            </div>
+            <div className="sidebar-user-info">
+              <div className="sidebar-user-name">{currentUser?.name || 'Пользователь'}</div>
+              <div className="sidebar-user-status">online</div>
+            </div>
           </div>
-        </div>
+        )}
         
-        <div className="vk-user-profile" onClick={handleProfileClick} style={{cursor: 'pointer'}}>
-          <div className="vk-user-avatar">
-            {sidebarAvatar ? (
-              <img 
-                src={`${API_BASE_URL}${sidebarAvatar}`} 
-                alt={currentUser.name}
-                onError={(e) => {
-                  console.error('Ошибка загрузки аватарки боковой панели:', sidebarAvatar);
-                  e.target.style.display = 'none';
-                }}
-              />
-            ) : (
-              <div className="vk-avatar-fallback">
-                {currentUser?.name?.charAt(0)?.toUpperCase() || 'U'}
-              </div>
-            )}
-          </div>
-          <div className="vk-user-info">
-            <div className="vk-user-name">{currentUser?.name || 'Пользователь'}</div>
-            <div className="vk-user-status">online</div>
-          </div>
-        </div>
-
-        <nav className="vk-nav-menu">
-          <a href="#" className="vk-nav-item active">
-            <FiHome className="vk-nav-icon" />
-            <span className="vk-nav-text">Новости</span>
+        <nav className="sidebar-nav-menu">
+          <a href="#" className={`sidebar-nav-item ${activeTab === 'all' ? 'active' : ''}`}>
+            <FiHome className="sidebar-nav-icon" />
+            <span className="sidebar-nav-text">Новости</span>
           </a>
-          <a href="#" className="vk-nav-item">
-            <FiUsers className="vk-nav-icon" />
-            <span className="vk-nav-text">Друзья</span>
-            <span className="vk-nav-badge">127</span>
+          <a href="#" className="sidebar-nav-item">
+            <FiUsers className="sidebar-nav-icon" />
+            <span className="sidebar-nav-text">Друзья</span>
+            <span className="sidebar-nav-badge">127</span>
           </a>
-          <a href="#" className="vk-nav-item">
-            <FiMessageCircle className="vk-nav-icon" />
-            <span className="vk-nav-text">Сообщения</span>
-            <span className="vk-nav-badge">3</span>
+          <a href="#" className="sidebar-nav-item">
+            <FiMessageCircle className="sidebar-nav-icon" />
+            <span className="sidebar-nav-text">Сообщения</span>
+            <span className="sidebar-nav-badge">3</span>
           </a>
-          <a href="#" className="vk-nav-item">
-            <FiBell className="vk-nav-icon" />
-            <span className="vk-nav-text">Уведомления</span>
-            <span className="vk-nav-badge">12</span>
+          <a href="#" className="sidebar-nav-item">
+            <FiBell className="sidebar-nav-icon" />
+            <span className="sidebar-nav-text">Уведомления</span>
+            <span className="sidebar-nav-badge">12</span>
           </a>
-          <a href="#" className="vk-nav-item">
-            <FiImage className="vk-nav-icon" />
-            <span className="vk-nav-text">Фотографии</span>
+          <a href="#" className="sidebar-nav-item">
+            <FiImage className="sidebar-nav-icon" />
+            <span className="sidebar-nav-text">Фотографии</span>
           </a>
-          <a href="#" className="vk-nav-item">
-            <FiMusic className="vk-nav-icon" />
-            <span className="vk-nav-text">Музыка</span>
+          <a href="#" className="sidebar-nav-item">
+            <FiMusic className="sidebar-nav-icon" />
+            <span className="sidebar-nav-text">Музыка</span>
           </a>
-          <a href="#" className="vk-nav-item">
-            <FiVideo className="vk-nav-icon" />
-            <span className="vk-nav-text">Видео</span>
+          <a href="#" className="sidebar-nav-item">
+            <FiVideo className="sidebar-nav-icon" />
+            <span className="sidebar-nav-text">Видео</span>
           </a>
-          <a href="#" className="vk-nav-item">
-            <FiBookmark className="vk-nav-icon" />
-            <span className="vk-nav-text">Закладки</span>
+          <a href="#" className="sidebar-nav-item">
+            <FiBookmark className="sidebar-nav-icon" />
+            <span className="sidebar-nav-text">Закладки</span>
           </a>
         </nav>
 
-        <div className="vk-sidebar-footer">
-          <button className="vk-settings-btn">
-            <FiMoreVertical className="vk-settings-icon" />
+        <div className="sidebar-footer">
+          <button className="sidebar-settings-btn">
+            <FiMoreVertical className="sidebar-settings-icon" />
             <span>Еще</span>
           </button>
         </div>
