@@ -10,6 +10,11 @@ import Friends from './components/Friends';
 import Profile from './components/Profile';
 import AdminPanel from './components/AdminPanel';
 import Search from './components/Search';
+import Gallery from './components/Gallery';
+import Music from './components/Music';
+import Videos from './components/Videos';
+import Bookmarks from './components/Bookmarks';
+import ProfileEdit from './components/ProfileEdit';
 import Logo from '../public/Лого.png'
 import Friend from '../public/friend.png';
 import Chat from '../public/chat.png';
@@ -154,6 +159,15 @@ function MainApp({ currentUser, activeTab, setActiveTab, sidebarOpen, setSidebar
         <div className="header-wrapper">
           {/* Левая часть - логотип и навигация */}
           <div className="header-left">
+            {isMobile && (
+              <button 
+                className="sidebar-toggle"
+                onClick={() => setSidebarOpen(true)}
+                title="Меню"
+              >
+                <span className="toggle-icon">☰</span>
+              </button>
+            )}
             <div className="header-logo">
               <img src={Logo} alt="Logo" className="logo-image" />
             </div>
@@ -368,6 +382,11 @@ function MainApp({ currentUser, activeTab, setActiveTab, sidebarOpen, setSidebar
             } 
           />
           <Route path="/notifications" element={<Notifications currentUser={currentUser} isMobile={isMobile} />} />
+          <Route path="/gallery" element={<Gallery currentUser={currentUser} isMobile={isMobile} />} />
+          <Route path="/music" element={<Music currentUser={currentUser} isMobile={isMobile} />} />
+          <Route path="/videos" element={<Videos currentUser={currentUser} isMobile={isMobile} />} />
+          <Route path="/bookmarks" element={<Bookmarks currentUser={currentUser} isMobile={isMobile} />} />
+          <Route path="/profile/edit" element={<ProfileEdit currentUser={currentUser} />} />
           <Route 
             path="/profile" 
             element={

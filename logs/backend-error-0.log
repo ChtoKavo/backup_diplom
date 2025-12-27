@@ -74,3 +74,15 @@
   sqlState: undefined,
   sqlMessage: undefined
 }
+2025-12-26 13:29:12: Ignoring invalid configuration option passed to Connection: acquireTimeout. This is currently a warning, but in future versions of MySQL2, an error will be thrown if you pass an invalid configuration option to a Connection
+2025-12-26 13:30:12: Ошибка автоматического обновления статусов: Error: connect ECONNREFUSED 151.247.196.66:3306
+    at PromisePool.execute (/root/projects/backup_diplom/client/express/node_modules/mysql2/lib/promise/pool.js:54:22)
+    at Timeout._onTimeout (/root/projects/backup_diplom/client/express/index.js:1985:40)
+    at listOnTimeout (node:internal/timers:569:17)
+    at process.processTimers (node:internal/timers:512:7) {
+  code: 'ECONNREFUSED',
+  errno: -111,
+  sql: undefined,
+  sqlState: undefined,
+  sqlMessage: undefined
+}

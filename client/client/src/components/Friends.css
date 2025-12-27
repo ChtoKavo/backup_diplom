@@ -223,6 +223,9 @@
   font-size: 14px;
   font-weight: 500;
   user-select: none;
+  background: none;
+  border: none;
+  font-family: inherit;
 }
 
 .sidebar-nav-item:hover {
@@ -1315,52 +1318,19 @@
 
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 1200px) {
+  .friends-page {
+    flex-direction: column;
+  }
+
   .friends-sidebar {
-    position: relative;
-    width: 100%;
-    height: auto;
-    border-right: none;
-    border-bottom: 1px solid var(--vk-border);
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 0;
-    top: auto;
-    padding-bottom: 12px;
-  }
-
-  .friends-main {
-    margin-left: 0;
-  }
-
-  .sidebar-nav-menu {
-    display: flex;
-    flex-direction: row;
-    padding: 12px 0;
-    gap: 0;
-    overflow-x: auto;
-    scrollbar-width: none;
-    flex: 1;
-    margin: 0 16px;
-  }
-
-  .sidebar-nav-menu::-webkit-scrollbar {
     display: none;
   }
 
-  .sidebar-nav-item {
-    padding: 8px 12px;
-    font-size: 13px;
-    border-radius: 0;
-    flex-shrink: 0;
-    border-bottom: 3px solid transparent;
-    margin-bottom: -12px;
-  }
-
-  .sidebar-nav-item.active {
-    border-left: none;
-    border-bottom: 3px solid var(--orange-primary);
-    padding-left: 12px;
-    background-color: transparent;
+  .friends-main,
+  .vk-main-content,
+  .main-content {
+    margin-left: 0;
+    padding: 16px 12px 80px;
   }
 
   .friends-grid {
@@ -1377,48 +1347,14 @@
     --vk-sidebar-width: 100%;
   }
 
+  /* Полностью скрываем сайдбар на мобильных */
   .friends-sidebar {
-    grid-template-columns: 1fr;
-    height: auto;
-    width: 100%;
-    border-bottom: 1px solid var(--vk-border);
-    display: flex;
-    flex-direction: column;
+    display: none;
   }
 
   .friends-main {
     margin-left: 0;
     margin-top: 0;
-  }
-
-  .sidebar-nav-menu {
-    flex-direction: row;
-    overflow-x: auto;
-    gap: 0;
-    padding: 8px 0;
-    margin: 0;
-  }
-
-  .sidebar-nav-item {
-    padding: 8px 16px;
-    border-radius: 0;
-    font-size: 12px;
-    flex-shrink: 0;
-    border-bottom: 3px solid transparent;
-  }
-
-  .sidebar-nav-item.active {
-    border-left: none;
-    border-bottom: 3px solid var(--orange-primary);
-    background-color: transparent;
-  }
-
-  .sidebar-nav-text {
-    display: none;
-  }
-
-  .sidebar-nav-badge {
-    display: flex;
   }
 
   .friends-header {

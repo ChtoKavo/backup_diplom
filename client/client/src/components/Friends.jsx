@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Friends.css';
 import { 
   FiHome, FiUsers, FiMessageCircle, FiBell,
@@ -7,6 +8,7 @@ import {
 
 const Friends = ({ currentUserId: propCurrentUserId, onViewProfile }) => {
   const [activeTab, setActiveTab] = useState('all');
+  const navigate = useNavigate();
   const [showActions, setShowActions] = useState(null);
   const [friends, setFriends] = useState([]);
   const [friendRequests, setFriendRequests] = useState([]);
@@ -452,41 +454,41 @@ const Friends = ({ currentUserId: propCurrentUserId, onViewProfile }) => {
         )}
         
         <nav className="sidebar-nav-menu">
-          <a href="#" className="sidebar-nav-item">
+          <button className="sidebar-nav-item" onClick={() => navigate('/')}>
             <FiHome className="sidebar-nav-icon" />
             <span className="sidebar-nav-text">Новости</span>
-          </a>
-          <a href="#" className={`sidebar-nav-item ${activeTab === 'all' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setActiveTab('all'); }}>
+          </button>
+          <button className={`sidebar-nav-item ${activeTab === 'all' ? 'active' : ''}`} onClick={() => setActiveTab('all')}>
             <FiUsers className="sidebar-nav-icon" />
             <span className="sidebar-nav-text">Друзья</span>
             {friends.length > 0 && <span className="sidebar-nav-badge">{friends.length}</span>}
-          </a>
-          <a href="#" className="sidebar-nav-item">
+          </button>
+          <button className="sidebar-nav-item" onClick={() => navigate('/chats')}>
             <FiMessageCircle className="sidebar-nav-icon" />
             <span className="sidebar-nav-text">Сообщения</span>
             <span className="sidebar-nav-badge">3</span>
-          </a>
-          <a href="#" className={`sidebar-nav-item ${activeTab === 'requests' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setActiveTab('requests'); }}>
+          </button>
+          <button className={`sidebar-nav-item ${activeTab === 'requests' ? 'active' : ''}`} onClick={() => setActiveTab('requests')}>
             <FiBell className="sidebar-nav-icon" />
             <span className="sidebar-nav-text">Уведомления</span>
             {friendRequests.length > 0 && <span className="sidebar-nav-badge alert">{friendRequests.length}</span>}
-          </a>
-          <a href="#" className="sidebar-nav-item">
+          </button>
+          <button className="sidebar-nav-item" onClick={() => navigate('/gallery')}>
             <FiImage className="sidebar-nav-icon" />
             <span className="sidebar-nav-text">Фотографии</span>
-          </a>
-          <a href="#" className="sidebar-nav-item">
+          </button>
+          <button className="sidebar-nav-item" onClick={() => navigate('/music')}>
             <FiMusic className="sidebar-nav-icon" />
             <span className="sidebar-nav-text">Музыка</span>
-          </a>
-          <a href="#" className="sidebar-nav-item">
+          </button>
+          <button className="sidebar-nav-item" onClick={() => navigate('/videos')}>
             <FiVideo className="sidebar-nav-icon" />
             <span className="sidebar-nav-text">Видео</span>
-          </a>
-          <a href="#" className="sidebar-nav-item">
+          </button>
+          <button className="sidebar-nav-item" onClick={() => navigate('/bookmarks')}>
             <FiBookmark className="sidebar-nav-icon" />
             <span className="sidebar-nav-text">Закладки</span>
-          </a>
+          </button>
         </nav>
 
         <div className="sidebar-footer">

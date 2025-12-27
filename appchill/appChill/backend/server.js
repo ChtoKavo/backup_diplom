@@ -2219,52 +2219,68 @@
               }
 
               console.log('✅ Username не занят:', username);
+              console.log('👤 Создаю пользователя...');
 
-              // Генерируем код и session token
-              const code = generateVerificationCode();
-              const sessionToken = generateSessionToken();
-              const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 минут
+              // Хешируем пароль и сразу создаем пользователя
+              try {
+                const hashedPassword = await bcrypt.hash(password, 10);
 
-              console.log(`⏱️  Срок действия кода: ${expiresAt.toISOString()}`);
-              console.log('💾 Сохраняю в БД...');
-
-              // Удаляем старые коды для этого email
-              db.query(
-                'DELETE FROM verification_codes WHERE email = ? AND is_verified = FALSE',
-                [email],
-                async (err) => {
-                  if (err) console.error('❌ Ошибка удаления старых кодов:', err);
-
-                  // Сохраняем в БД
-                  db.query(
-                    `INSERT INTO verification_codes (email, phone, code, session_token, expires_at) VALUES (?, ?, ?, ?, ?)`,
-                    [email, '', code, sessionToken, expiresAt],
-                    async (err) => {
-                      if (err) {
-                        console.error('❌ Ошибка вставки кода в БД:', err);
-                        return res.status(500).json({ error: 'Ошибка сервера' });
+                db.query(
+                  `INSERT INTO users (username, email, password) 
+                   VALUES (?, ?, ?)`,
+                  [username, email, hashedPassword],
+                  (err, result) => {
+                    if (err) {
+                      console.error('❌ Ошибка создания пользователя:', err);
+                      if (err.code === 'ER_DUP_ENTRY') {
+                        if (err.sqlMessage.includes('username')) {
+                          return res.status(400).json({ error: 'Пользователь с таким именем уже существует' });
+                        }
+                        if (err.sqlMessage.includes('email')) {
+                          return res.status(400).json({ error: 'Пользователь с таким email уже существует' });
+                        }
                       }
-
-                      console.log('✅ Записано в БД успешно');
-
-                      // ⚡ Отправляем email В ФОНЕ (не ждем ответа)
-                      console.log('📧 Ставлю email в очередь отправки...');
-                      sendVerificationEmail(email, code, username).catch(err => {
-                        console.error('❌ Ошибка отправки email в фоне:', err.message);
-                      });
-
-                      // ✅ Сразу отправляем успешный ответ клиенту (не ждем email)
-                      console.log('✅ Отправляю ответ клиенту');
-                      console.log('🎉 Регистрация инициирована успешно\n');
-                      res.json({
-                        success: true,
-                        message: 'Код подтверждения отправлен на ваш email',
-                        sessionToken: sessionToken
-                      });
+                      return res.status(500).json({ error: 'Ошибка создания аккаунта' });
                     }
-                  );
-                }
-              );
+
+                    const userId = result.insertId;
+                    console.log(`✅ Пользователь создан. ID: ${userId}`);
+
+                    // Создаем JWT токен
+                    const token = jwt.sign(
+                      { id: userId, email: email, username: username },
+                      process.env.JWT_SECRET || 'your_jwt_secret',
+                      { expiresIn: '30d' }
+                    );
+
+                    console.log(`🎫 JWT токен сгенерирован (30 дней)`);
+
+                    // Получаем полные данные пользователя
+                    db.query(
+                      'SELECT id, username, email, avatar, bio, status, cardColor, is_banned FROM users WHERE id = ?',
+                      [userId],
+                      (err, userData) => {
+                        if (err) {
+                          console.error('❌ Ошибка получения данных пользователя:', err);
+                          return res.status(500).json({ error: 'Ошибка сервера' });
+                        }
+
+                        console.log('🎉 Аккаунт успешно создан\n');
+                        res.json({
+                          success: true,
+                          message: 'Аккаунт успешно создан',
+                          token: token,
+                          user: userData[0]
+                        });
+                      }
+                    );
+                  }
+                );
+              } catch (hashError) {
+                console.error('❌ Ошибка хеширования пароля:', hashError);
+                console.log('');
+                res.status(500).json({ error: 'Ошибка сервера' });
+              }
             }
           );
         }
@@ -2279,366 +2295,6 @@
   });
 
   // ⭐ Email верификация - Шаг 1: Инициирование регистрации с Email
-  app.post('/api/register', async (req, res) => {
-    const { username, email, password } = req.body;
-
-    try {
-      // Валидация входных данных
-      if (!username || !email || !password) {
-        return res.status(400).json({ 
-          error: 'Все поля обязательны' 
-        });
-      }
-
-      // Проверка минимальной длины
-      if (username.length < 3 || password.length < 6) {
-        return res.status(400).json({ 
-          error: 'Имя должно быть минимум 3 символа, пароль 6 символов' 
-        });
-      }
-
-      // Проверка формата email
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        return res.status(400).json({ 
-          error: 'Некорректный формат email' 
-        });
-      }
-
-      // Проверка, не занят ли email
-      db.query(
-        'SELECT id FROM users WHERE email = ?',
-        [email],
-        async (err, results) => {
-          if (err) {
-            return res.status(500).json({ error: 'Ошибка БД' });
-          }
-
-          if (results.length > 0) {
-            return res.status(400).json({ 
-              error: 'Email уже зарегистрирован' 
-            });
-          }
-
-          // Проверка, не занято ли имя пользователя
-          db.query(
-            'SELECT id FROM users WHERE username = ?',
-            [username],
-            async (err, results) => {
-              if (err) {
-                return res.status(500).json({ error: 'Ошибка БД' });
-              }
-
-              if (results.length > 0) {
-                return res.status(400).json({ 
-                  error: 'Это имя пользователя уже занято' 
-                });
-              }
-
-              // Генерируем код и session token
-              const code = generateVerificationCode();
-              const sessionToken = generateSessionToken();
-              const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 минут
-
-              // Удаляем старые коды для этого email
-              db.query(
-                'DELETE FROM verification_codes WHERE email = ? AND is_verified = FALSE',
-                [email],
-                async (err) => {
-                  if (err) console.error('❌ Ошибка удаления старых кодов:', err);
-
-                  // Сохраняем в БД
-                  db.query(
-                    `INSERT INTO verification_codes (email, phone, code, session_token, expires_at) VALUES (?, ?, ?, ?, ?)`,
-                    [email, '', code, sessionToken, expiresAt],
-                    async (err) => {
-                      if (err) {
-                        console.error('❌ Ошибка вставки кода:', err);
-                        return res.status(500).json({ error: 'Ошибка сервера' });
-                      }
-
-                      // Отправляем email с кодом
-                      try {
-                        await sendVerificationEmail(email, code, username);
-                        
-                        res.json({
-                          success: true,
-                          message: 'Код подтверждения отправлен на ваш email',
-                          sessionToken: sessionToken
-                        });
-                      } catch (error) {
-                        console.error('❌ Ошибка отправки email:', error);
-                        res.status(500).json({ error: 'Не удалось отправить email' });
-                      }
-                    }
-                  );
-                }
-              );
-            }
-          );
-        }
-      );
-    } catch (error) {
-      console.error('❌ Ошибка регистрации:', error);
-      res.status(500).json({ 
-        error: 'Ошибка сервера. Попробуйте позже.' 
-      });
-    }
-  });
-
-  // ⭐ Email верификация - Шаг 2: Подтверждение кода и создание аккаунта
-  app.post('/api/verify-code', async (req, res) => {
-    const { email, code, username, password } = req.body;
-
-    console.log('\n' + '='.repeat(70));
-    console.log('🔐 Запрос подтверждения кода:', { email, code });
-    console.log('='.repeat(70));
-
-    try {
-      // Валидация
-      if (!email || !code || !username || !password) {
-        console.log('❌ Валидация: не все поля заполнены');
-        return res.status(400).json({ 
-          error: 'Все поля обязательны' 
-        });
-      }
-
-      console.log('✅ Валидация пройдена');
-
-      // Поиск записи верификации
-      db.query(
-        `SELECT * FROM verification_codes 
-         WHERE email = ? AND is_verified = FALSE`,
-        [email],
-        async (err, results) => {
-          if (err) {
-            console.error('❌ Ошибка БД:', err);
-            return res.status(500).json({ error: 'Ошибка БД' });
-          }
-
-          if (results.length === 0) {
-            console.log('❌ Запись верификации не найдена для:', email);
-            return res.status(400).json({ 
-              error: 'Запрос на верификацию не найден' 
-            });
-          }
-
-          const record = results[0];
-          console.log('✅ Запись верификации найдена');
-          console.log(`   Попыток: ${record.attempts}/${record.max_attempts}`);
-          console.log(`   Срок действия: ${record.expires_at}`);
-
-          // Проверка истечения времени
-          if (new Date() > new Date(record.expires_at)) {
-            console.log('❌ Код истёк');
-            // Удаляем истекшую запись
-            db.query(
-              'DELETE FROM verification_codes WHERE id = ?',
-              [record.id]
-            );
-            
-            return res.status(400).json({ 
-              error: 'Код истек. Запросите новый код' 
-            });
-          }
-
-          // Проверка максимального числа попыток
-          if (record.attempts >= record.max_attempts) {
-            console.log('❌ Превышено максимальное количество попыток');
-            return res.status(400).json({ 
-              error: 'Превышено максимальное количество попыток. Запросите новый код' 
-            });
-          }
-
-          console.log(`🔍 Проверяю код: ${code} === ${record.code}`);
-
-          // Проверка кода
-          if (record.code !== code.toString()) {
-            console.log('❌ Неверный код! Увеличиваю счётчик попыток');
-            // Увеличиваем счетчик попыток
-            db.query(
-              'UPDATE verification_codes SET attempts = attempts + 1 WHERE id = ?',
-              [record.id],
-              () => {
-                const remainingAttempts = record.max_attempts - record.attempts - 1;
-                console.log(`   Осталось попыток: ${remainingAttempts}`);
-              }
-            );
-            
-            return res.status(400).json({ 
-              error: 'Неверный код подтверждения',
-              remainingAttempts: record.max_attempts - record.attempts - 1
-            });
-          }
-
-          console.log('✅ Код верный!');
-          console.log('👤 Создаю пользователя...');
-
-          // Код верный - создаем пользователя
-          try {
-            const hashedPassword = await bcrypt.hash(password, 10);
-
-            db.query(
-              `INSERT INTO users (username, email, password) 
-               VALUES (?, ?, ?)`,
-              [username, email, hashedPassword],
-              (err, result) => {
-                if (err) {
-                  console.error('❌ Ошибка создания пользователя:', err);
-                  if (err.code === 'ER_DUP_ENTRY') {
-                    if (err.sqlMessage.includes('username')) {
-                      return res.status(400).json({ error: 'Пользователь с таким именем уже существует' });
-                    }
-                    if (err.sqlMessage.includes('email')) {
-                      return res.status(400).json({ error: 'Пользователь с таким email уже существует' });
-                    }
-                  }
-                  return res.status(500).json({ error: 'Ошибка создания аккаунта' });
-                }
-
-                const userId = result.insertId;
-                console.log(`✅ Пользователь создан. ID: ${userId}`);
-
-                // Отмечаем верификацию как завершенную
-                db.query(
-                  'UPDATE verification_codes SET is_verified = TRUE WHERE id = ?',
-                  [record.id],
-                  () => console.log('✅ Верификация отмечена как завершённая')
-                );
-
-                // Создаем JWT токен
-                const token = jwt.sign(
-                  { id: userId, email: email, username: username },
-                  process.env.JWT_SECRET || 'your_jwt_secret',
-                  { expiresIn: '30d' }
-                );
-
-                console.log(`🎫 JWT токен сгенерирован (30 дней)`);
-
-                // Получаем полные данные пользователя
-                db.query(
-                  'SELECT id, username, email, avatar, bio, status, cardColor, is_banned FROM users WHERE id = ?',
-                  [userId],
-                  (err, userData) => {
-                    if (err) {
-                      console.error('❌ Ошибка получения данных пользователя:', err);
-                      return res.status(500).json({ error: 'Ошибка сервера' });
-                    }
-
-                    console.log('🎉 Аккаунт успешно создан и активирован\n');
-                    res.json({
-                      success: true,
-                      message: 'Аккаунт успешно создан',
-                      token: token,
-                      user: userData[0]
-                    });
-                  }
-                );
-              }
-            );
-          } catch (hashError) {
-            console.error('❌ Ошибка хеширования пароля:', hashError);
-            console.log('');
-            res.status(500).json({ error: 'Ошибка сервера' });
-          }
-        }
-      );
-    } catch (error) {
-      console.error('❌ Ошибка верификации кода:', error);
-      console.log('');
-      res.status(500).json({ 
-        error: 'Ошибка сервера' 
-      });
-    }
-  });
-
-  // ⭐ Email верификация - Переотправка кода
-  app.post('/api/resend-verification-code', async (req, res) => {
-    const { email } = req.body;
-
-    console.log('\n' + '='.repeat(70));
-    console.log('🔄 Запрос переотправки кода:', { email });
-    console.log('='.repeat(70));
-
-    try {
-      // Валидация
-      if (!email) {
-        console.log('❌ Валидация: email не заполнен');
-        return res.status(400).json({ 
-          error: 'Email обязателен' 
-        });
-      }
-
-      // Поиск активной записи верификации
-      db.query(
-        `SELECT * FROM verification_codes 
-         WHERE email = ? AND is_verified = FALSE`,
-        [email],
-        async (err, results) => {
-          if (err) {
-            console.error('❌ Ошибка БД:', err);
-            return res.status(500).json({ error: 'Ошибка БД' });
-          }
-
-          if (results.length === 0) {
-            console.log('❌ Запись верификации не найдена для:', email);
-            return res.status(400).json({ 
-              error: 'Запрос на верификацию не найден' 
-            });
-          }
-
-          const record = results[0];
-
-          console.log('✅ Запись верификации найдена');
-          console.log('🔄 Переотправка кода...');
-
-          // Генерируем новый код
-          const newCode = generateVerificationCode();
-          const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // Новый 5-минутный таймер
-
-          console.log(`⏱️  Новый срок действия: ${expiresAt.toISOString()}`);
-          console.log('💾 Обновляю БД...');
-
-          // Обновляем запись
-          db.query(
-            `UPDATE verification_codes 
-             SET code = ?, expires_at = ?, attempts = 0 
-             WHERE email = ?`,
-            [newCode, expiresAt, email],
-            async (err) => {
-              if (err) {
-                console.error('❌ Ошибка обновления кода:', err);
-                console.log('');
-                return res.status(500).json({ error: 'Ошибка сервера' });
-              }
-
-              console.log('✅ БД обновлена, счётчик попыток сброшен');
-
-              // ⚡ Отправляем email В ФОНЕ (не ждем ответа)
-              console.log('📧 Ставлю email в очередь отправки...');
-              sendVerificationEmail(email, newCode, email.split('@')[0]).catch(err => {
-                console.error('❌ Ошибка отправки email в фоне:', err.message);
-              });
-
-              // ✅ Сразу отправляем успешный ответ клиенту (не ждем email)
-              console.log('✅ Отправляю ответ клиенту');
-              console.log('🎉 Код переотправлен успешно\n');
-              res.json({
-                success: true,
-                message: 'Новый код отправлен на ваш email'
-              });
-            }
-          );
-        }
-      );
-    } catch (error) {
-      console.error('❌ Ошибка повторной отправки кода:', error);
-      console.log('');
-      res.status(500).json({ 
-        error: 'Ошибка сервера' 
-      });
-    }
-  });
 
   // Вход
   app.post('/api/login', (req, res) => {
@@ -4056,12 +3712,12 @@
             rm.message as reply_to_message,
             rm.sender_id as reply_to_sender_id,
             ru.username as reply_to_sender,
-            COALESCE(mrs.is_read, 0) as is_read
+            CASE WHEN mrs.is_read = 1 THEN 1 ELSE 0 END as is_read
       FROM messages m
       JOIN users su ON m.sender_id = su.id
       LEFT JOIN messages rm ON m.reply_to = rm.id
       LEFT JOIN users ru ON rm.sender_id = ru.id
-      LEFT JOIN message_read_status mrs ON m.id = mrs.message_id AND mrs.reader_id = ?
+      LEFT JOIN message_read_status mrs ON m.id = mrs.message_id AND mrs.reader_id = ? AND mrs.is_read = 1
       WHERE (m.sender_id = ? AND m.receiver_id = ?) 
         OR (m.sender_id = ? AND m.receiver_id = ?)
       ORDER BY m.created_at ASC
@@ -9952,6 +9608,154 @@
             res.json({
               success: true,
               message: 'Тикет удален'
+            });
+          }
+        );
+      }
+    );
+  });
+
+  // ========== ГАЛЕРЕЯ ПОЛЬЗОВАТЕЛЯ (USER_GALLERY) ==========
+
+  // 📤 ЗАГРУЗИТЬ ФОТО В ГАЛЕРЕЮ
+  app.post('/api/user_gallery', authenticateToken, (req, res) => {
+    const { photo } = req.body;
+    const userId = req.user.id;
+
+    console.log('\n' + '='.repeat(70));
+    console.log('📤 ЗАГРУЗКА ФОТО В ГАЛЕРЕЮ');
+    console.log('   User ID:', userId);
+    console.log('   Photo size:', photo ? photo.length + ' bytes' : 'нет');
+    console.log('='.repeat(70));
+
+    if (!photo) {
+      return res.status(400).json({ error: 'Фото не предоставлено' });
+    }
+
+    // Проверяем размер (max 5MB для base64)
+    const maxSize = 5 * 1024 * 1024;
+    if (photo.length > maxSize) {
+      return res.status(400).json({ error: 'Фото слишком большое (макс 5MB)' });
+    }
+
+    db.query(
+      'INSERT INTO user_gallery (user_id, photo) VALUES (?, ?)',
+      [userId, photo],
+      (err, result) => {
+        if (err) {
+          console.error('❌ Ошибка загрузки фото в галерею:', err);
+          return res.status(500).json({ error: 'Ошибка сервера' });
+        }
+
+        const photoId = result.insertId;
+        console.log(`✅ Фото ${photoId} загружено в галерею пользователя ${userId}`);
+        console.log('='.repeat(70) + '\n');
+
+        res.json({
+          success: true,
+          photoId: photoId,
+          message: 'Фото добавлено в галерею'
+        });
+      }
+    );
+  });
+
+  // 📥 ПОЛУЧИТЬ ВСЕ ФОТО ИЗ ГАЛЕРЕИ
+  app.get('/api/user_gallery', authenticateToken, (req, res) => {
+    const userId = req.user.id;
+
+    console.log('\n' + '='.repeat(70));
+    console.log('📥 ЗАГРУЗКА ГАЛЕРЕИ');
+    console.log('   User ID:', userId);
+    console.log('='.repeat(70));
+
+    db.query(
+      'SELECT id, photo, uploaded_at FROM user_gallery WHERE user_id = ? ORDER BY uploaded_at DESC',
+      [userId],
+      (err, results) => {
+        if (err) {
+          console.error('❌ Ошибка загрузки галереи:', err);
+          return res.status(500).json({ error: 'Ошибка сервера' });
+        }
+
+        console.log(`✅ Загружено ${results.length} фото из галереи пользователя ${userId}`);
+
+        // 🔄 Преобразуем Buffer в base64 если это необходимо
+        const photos = results.map(p => {
+          let photoData = p.photo;
+          
+          // Если это Buffer - преобразуем в base64 строку
+          if (Buffer.isBuffer(p.photo)) {
+            photoData = p.photo.toString('base64');
+            console.log(`✅ Photo ${p.id}: Buffer преобразован в base64 (${photoData.substring(0, 50)}...)`);
+          } else if (typeof p.photo === 'string' && !p.photo.startsWith('data:') && !p.photo.startsWith('/')) {
+            // Если это строка без префикса - она уже в формате base64, просто добавим префикс
+            console.log(`✅ Photo ${p.id}: Строка найдена (${p.photo.substring(0, 50)}...)`);
+          }
+          
+          return {
+            id: p.id,
+            photo: photoData,
+            uploaded_at: p.uploaded_at
+          };
+        });
+
+        console.log('='.repeat(70) + '\n');
+
+        res.json({
+          success: true,
+          photos: photos
+        });
+      }
+    );
+  });
+
+  // 🗑️ УДАЛИТЬ ФОТО ИЗ ГАЛЕРЕИ
+  app.delete('/api/user_gallery/:photoId', authenticateToken, (req, res) => {
+    const { photoId } = req.params;
+    const userId = req.user.id;
+
+    console.log('\n' + '='.repeat(70));
+    console.log('🗑️ УДАЛЕНИЕ ФОТО ИЗ ГАЛЕРЕИ');
+    console.log('   Photo ID:', photoId);
+    console.log('   User ID:', userId);
+    console.log('='.repeat(70));
+
+    // Сначала проверяем, что фото принадлежит пользователю
+    db.query(
+      'SELECT user_id FROM user_gallery WHERE id = ?',
+      [photoId],
+      (err, results) => {
+        if (err) {
+          console.error('❌ Ошибка поиска фото:', err);
+          return res.status(500).json({ error: 'Ошибка сервера' });
+        }
+
+        if (!results || results.length === 0) {
+          return res.status(404).json({ error: 'Фото не найдено' });
+        }
+
+        if (results[0].user_id !== userId) {
+          console.warn(`⚠️ Попытка удалить чужое фото! Пользователь ${userId}, владелец ${results[0].user_id}`);
+          return res.status(403).json({ error: 'Доступ запрещен' });
+        }
+
+        // Удаляем фото
+        db.query(
+          'DELETE FROM user_gallery WHERE id = ? AND user_id = ?',
+          [photoId, userId],
+          (err, result) => {
+            if (err) {
+              console.error('❌ Ошибка удаления фото:', err);
+              return res.status(500).json({ error: 'Ошибка сервера' });
+            }
+
+            console.log(`✅ Фото ${photoId} удалено пользователем ${userId}`);
+            console.log('='.repeat(70) + '\n');
+
+            res.json({
+              success: true,
+              message: 'Фото удалено из галереи'
             });
           }
         );

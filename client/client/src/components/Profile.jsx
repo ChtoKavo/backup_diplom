@@ -1,6 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './Profile.css';
+import './Friends.css';
+import Lenta from '../../public/lenta.png';
+import Friend from '../../public/friend.png';
+import Chat from '../../public/chat.png';
+import Prof from '../../public/Profile.png';
+import Notification from '../../public/nofications.png';
+import { 
+  FiHome, FiUsers, FiMessageCircle, FiBell,
+  FiImage, FiMusic, FiVideo, FiBookmark,
+  FiMoreVertical
+} from 'react-icons/fi';
 
 const Profile = ({ currentUser }) => {
   const { userId } = useParams();
@@ -8,6 +19,7 @@ const Profile = ({ currentUser }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [sidebarAvatar, setSidebarAvatar] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [bannerPreview, setBannerPreview] = useState(null);
@@ -58,8 +70,26 @@ const Profile = ({ currentUser }) => {
   useEffect(() => {
     if (currentUser) {
       loadUserProfile();
+      loadUserAvatar();
     }
   }, [currentUser, userId]);
+
+  // Загрузка аватарки текущего пользователя для сайдбара
+  const loadUserAvatar = async () => {
+    try {
+      if (currentUser?.user_id) {
+        const response = await fetch(`${API_BASE_URL}/api/users/${currentUser.user_id}/profile`);
+        if (response.ok) {
+          const userData = await response.json();
+          if (userData.avatar_url) {
+            setSidebarAvatar(userData.avatar_url);
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Ошибка загрузки аватарки:', error);
+    }
+  };
 
   // Загрузка профиля пользователя
   const loadUserProfile = async () => {
@@ -413,8 +443,12 @@ const Profile = ({ currentUser }) => {
 
   // Остальные существующие функции
   const handleEdit = () => {
-    setIsEditPage(true);
-    closeMenu();
+    setIsEditing(true);
+    setEditForm({
+      name: user.name || '',
+      email: user.email || '',
+      bio: user.bio || ''
+    });
   };
 
   const toggleMenu = () => {
@@ -783,7 +817,7 @@ const Profile = ({ currentUser }) => {
             style={{ display: 'none' }}
           />
           
-          <div className="profile-avatar-section">
+          <div className={`profile-avatar-section ${isEditing ? 'editing' : ''}`}>
             <div 
               className="avatar editable"
               onClick={handleAvatarClick}
@@ -808,6 +842,13 @@ const Profile = ({ currentUser }) => {
                 className="avatar-upload-button"
               >
                 Сменить аватар
+              </button>
+              <button 
+                type="button" 
+                onClick={handleBannerClick}
+                className="avatar-upload-button"
+              >
+                Сменить баннер
               </button>
               {(avatarPreview || user?.avatar_url) && (
                 <button 
@@ -917,15 +958,140 @@ const Profile = ({ currentUser }) => {
   }
 
   return (
-    <div className="profile-container">
+    <div className="friends-page">
+      {/* Sidebar */}
+      <div className="friends-sidebar">
+        {currentUser && (
+          <div className="sidebar-user-profile" onClick={() => navigate('/profile')} style={{cursor: 'pointer'}}>
+            <div className="sidebar-user-avatar">
+              {sidebarAvatar ? (
+                <img 
+                  src={`${API_BASE_URL}${sidebarAvatar}`} 
+                  alt={currentUser.name}
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                  }}
+                />
+              ) : (
+                <div className="sidebar-avatar-fallback">
+                  {currentUser?.name?.charAt(0)?.toUpperCase() || 'U'}
+                </div>
+              )}
+            </div>
+            <div className="sidebar-user-info">
+              <div className="sidebar-user-name">{currentUser?.name || 'Пользователь'}</div>
+              <div className="sidebar-user-status">online</div>
+            </div>
+          </div>
+        )}
+        
+        <nav className="sidebar-nav-menu">
+          <button 
+            className="sidebar-nav-item"
+            onClick={() => navigate('/')}
+          >
+            <FiHome className="sidebar-nav-icon" />
+            <span className="sidebar-nav-text">Новости</span>
+          </button>
+          <button 
+            className="sidebar-nav-item"
+            onClick={() => navigate('/friends')}
+          >
+            <FiUsers className="sidebar-nav-icon" />
+            <span className="sidebar-nav-text">Друзья</span>
+            <span className="sidebar-nav-badge">127</span>
+          </button>
+          <button 
+            className="sidebar-nav-item"
+            onClick={() => navigate('/chats')}
+          >
+            <FiMessageCircle className="sidebar-nav-icon" />
+            <span className="sidebar-nav-text">Сообщения</span>
+            <span className="sidebar-nav-badge">3</span>
+          </button>
+          <button 
+            className="sidebar-nav-item"
+            onClick={() => navigate('/notifications')}
+          >
+            <FiBell className="sidebar-nav-icon" />
+            <span className="sidebar-nav-text">Уведомления</span>
+            <span className="sidebar-nav-badge">12</span>
+          </button>
+          <button 
+            className="sidebar-nav-item active"
+            onClick={() => navigate('/profile')}
+          >
+            <FiImage className="sidebar-nav-icon" />
+            <span className="sidebar-nav-text">Профиль</span>
+          </button>
+          <button 
+            className="sidebar-nav-item"
+            onClick={() => navigate('/gallery')}
+          >
+            <FiImage className="sidebar-nav-icon" />
+            <span className="sidebar-nav-text">Фотографии</span>
+          </button>
+          <button 
+            className="sidebar-nav-item"
+            onClick={() => navigate('/music')}
+          >
+            <FiMusic className="sidebar-nav-icon" />
+            <span className="sidebar-nav-text">Музыка</span>
+          </button>
+          <button 
+            className="sidebar-nav-item"
+            onClick={() => navigate('/videos')}
+          >
+            <FiVideo className="sidebar-nav-icon" />
+            <span className="sidebar-nav-text">Видео</span>
+          </button>
+          <button 
+            className="sidebar-nav-item"
+            onClick={() => navigate('/bookmarks')}
+          >
+            <FiBookmark className="sidebar-nav-icon" />
+            <span className="sidebar-nav-text">Закладки</span>
+          </button>
+        </nav>
 
-      <div className="profile-banner">
+        <div className="sidebar-footer">
+          <button className="sidebar-settings-btn">
+            <FiMoreVertical className="sidebar-settings-icon" />
+            <span>Еще</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="vk-main-content">
+        <div className="profile-container">
+
+      <div className={`profile-banner ${isOwnProfile ? 'editable-banner' : ''}`}>
         <div 
           className="banner-overlay"
           style={{
-            backgroundImage: user?.banner_url ? `url(${API_BASE_URL}${user.banner_url})` : 'none'
+            backgroundImage: bannerPreview ? `url(${bannerPreview})` : (user?.banner_url ? `url(${API_BASE_URL}${user.banner_url})` : 'none')
           }}
-        ></div>
+        >
+          {isOwnProfile && (
+            <button 
+              type="button" 
+              className="banner-edit-button"
+              onClick={handleBannerClick}
+              title="Сменить фон профиля"
+            >
+              📸 Сменить фон
+            </button>
+          )}
+        </div>
+        
+        <input
+          type="file"
+          ref={bannerInputRef}
+          onChange={handleBannerChange}
+          accept="image/*"
+          style={{ display: 'none' }}
+        />
         
         <div className="profile-avatar-section">
           <div 
@@ -967,15 +1133,6 @@ const Profile = ({ currentUser }) => {
           )}
           
           <div className="user-name-section">
-            <div className="name-status-row">
-              <h3 className="user-name">{user.name || 'Не указано'}</h3>
-              <div className="online-status">
-                <span className={`status-dot ${user.is_online ? 'online' : 'offline'}`}></span>
-                {getOnlineStatus(user)}
-              </div>
-            </div>
-            <p className="registration-date">Зарегистрирован {formatDate(user.created_at)}</p>
-            
             {/* Кнопка подписки для чужого профиля */}
             {!isOwnProfile && (
               <button 
@@ -986,37 +1143,6 @@ const Profile = ({ currentUser }) => {
               </button>
             )}
             
-            {/* Кебаб-меню для своего профиля */}
-            {isOwnProfile && (
-              <div className="kebab-menu">
-                <button 
-                  className="kebab-button"
-                  onClick={toggleMenu}
-                  aria-label="Меню"
-                >
-                  <span className="kebab-dot"></span>
-                  <span className="kebab-dot"></span>
-                  <span className="kebab-dot"></span>
-                </button>
-                
-                {isMenuOpen && (
-                  <div className="dropdown-menu">
-                    <button 
-                      className="menu-item"
-                      onClick={handleEdit}
-                    >
-                      Редактировать профиль
-                    </button>
-                    <button 
-                      className="menu-item"
-                      onClick={handleAdditionalInfo}
-                    >
-                      Доп. информация
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
           </div>
 
           {uploadProgress > 0 && uploadProgress < 100 && (
@@ -1041,6 +1167,21 @@ const Profile = ({ currentUser }) => {
         <div className="profile-info">
           {isEditing ? (
             <div className="edit-form">
+              <div className="edit-banner-controls-section">
+                <button 
+                  className="avatar-upload-button"
+                  onClick={handleAvatarClick}
+                >
+                  👤 Сменить аватар
+                </button>
+                <button 
+                  className="avatar-upload-button"
+                  onClick={handleBannerClick}
+                >
+                  📷 Сменить баннер
+                </button>
+              </div>
+
               <div className="form-group">
                 <label htmlFor="name">Имя:</label>
                 <input
@@ -1087,10 +1228,19 @@ const Profile = ({ currentUser }) => {
           ) : (
             <div className="profile-details">
               <div className="bio-section">
+                <div className="bio-name">{user.name || 'Имя не указано'}</div>
                 <h4>О себе</h4>
                 <p>{user.bio || 'Пользователь еще не добавил информацию о себе.'}</p>
+                {isOwnProfile && (
+                  <button 
+                    className="edit-profile-button"
+                    onClick={handleEdit}
+                  >
+                    ✏️ Редактировать профиль
+                  </button>
+                )}
               </div>
-              
+
               <div className="stats-section">
                 <div className="stat-item">
                   <span className="stat-number">{user.posts_count || 0}</span>
@@ -1467,6 +1617,8 @@ const Profile = ({ currentUser }) => {
           </div>
         </div>
       )}
+        </div>
+      </div>
     </div>
   );
 };

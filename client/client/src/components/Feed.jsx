@@ -454,41 +454,65 @@ const Feed = ({ currentUser, socket }) => {
         )}
         
         <nav className="sidebar-nav-menu">
-          <a href="#" className={`sidebar-nav-item ${activeTab === 'all' ? 'active' : ''}`}>
+          <button 
+            className={`sidebar-nav-item ${activeTab === 'all' ? 'active' : ''}`}
+            onClick={() => navigate('/')}
+          >
             <FiHome className="sidebar-nav-icon" />
             <span className="sidebar-nav-text">Новости</span>
-          </a>
-          <a href="#" className="sidebar-nav-item">
+          </button>
+          <button 
+            className="sidebar-nav-item"
+            onClick={() => navigate('/friends')}
+          >
             <FiUsers className="sidebar-nav-icon" />
             <span className="sidebar-nav-text">Друзья</span>
             <span className="sidebar-nav-badge">127</span>
-          </a>
-          <a href="#" className="sidebar-nav-item">
+          </button>
+          <button 
+            className="sidebar-nav-item"
+            onClick={() => navigate('/chats')}
+          >
             <FiMessageCircle className="sidebar-nav-icon" />
             <span className="sidebar-nav-text">Сообщения</span>
             <span className="sidebar-nav-badge">3</span>
-          </a>
-          <a href="#" className="sidebar-nav-item">
+          </button>
+          <button 
+            className="sidebar-nav-item"
+            onClick={() => navigate('/notifications')}
+          >
             <FiBell className="sidebar-nav-icon" />
             <span className="sidebar-nav-text">Уведомления</span>
             <span className="sidebar-nav-badge">12</span>
-          </a>
-          <a href="#" className="sidebar-nav-item">
+          </button>
+          <button 
+            className="sidebar-nav-item"
+            onClick={() => navigate('/gallery')}
+          >
             <FiImage className="sidebar-nav-icon" />
             <span className="sidebar-nav-text">Фотографии</span>
-          </a>
-          <a href="#" className="sidebar-nav-item">
+          </button>
+          <button 
+            className="sidebar-nav-item"
+            onClick={() => navigate('/music')}
+          >
             <FiMusic className="sidebar-nav-icon" />
             <span className="sidebar-nav-text">Музыка</span>
-          </a>
-          <a href="#" className="sidebar-nav-item">
+          </button>
+          <button 
+            className="sidebar-nav-item"
+            onClick={() => navigate('/videos')}
+          >
             <FiVideo className="sidebar-nav-icon" />
             <span className="sidebar-nav-text">Видео</span>
-          </a>
-          <a href="#" className="sidebar-nav-item">
+          </button>
+          <button 
+            className="sidebar-nav-item"
+            onClick={() => navigate('/bookmarks')}
+          >
             <FiBookmark className="sidebar-nav-icon" />
             <span className="sidebar-nav-text">Закладки</span>
-          </a>
+          </button>
         </nav>
 
         <div className="sidebar-footer">

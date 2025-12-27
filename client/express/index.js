@@ -2266,17 +2266,13 @@ app.get('/api/chats/search', async (req, res) => {
         SELECT p.*, u.name as author_name, u.email as author_email
         FROM posts p
         JOIN users u ON p.user_id = u.user_id
-        WHERE p.is_published = TRUE
+        WHERE p.is_published = TRUE AND p.is_public = TRUE
       `;
       
       let params = [];
-
-      if (user_id && user_id !== 'undefined' && user_id !== 'null') {
-        query += ' AND (p.is_public = TRUE OR p.user_id = ?)';
-        params.push(parseInt(user_id));
-      } else {
-        query += ' AND p.is_public = TRUE';
-      }
+      
+      console.log('Executing posts query:', query);
+      console.log('With params:', params);
       
       query += ' ORDER BY p.created_at DESC';
 
@@ -2290,6 +2286,9 @@ app.get('/api/chats/search', async (req, res) => {
       console.log('With params:', params);
 
       const [posts] = await db.execute(query, params);
+      
+      console.log(`Found ${posts.length} posts in database`);
+      console.log('Sample posts:', posts.slice(0, 2));
 
       const postsWithCounts = await Promise.all(
         posts.map(async (post) => {
@@ -2550,7 +2549,7 @@ app.get('/api/chats/search', async (req, res) => {
         });
       }
 
-      const isPublicBool = is_public === 'true' || is_public === true;
+      const isPublicBool = is_public === 'false' ? false : true;
       const categoryId = parseInt(category_id) || 1;
 
       // Сохраняем первый URL изображения в image_url для обратной совместимости
